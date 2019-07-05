@@ -49,11 +49,6 @@ def getTriplets(ex):
 			else:
 				if ("\'s" in sent[k][0] or "’s" in sent[k][0]):
 					sent[k] = (sent[k][0], 'POSS')
-				# elif (k+1 >= len(sent)):
-				# 	print(ex)
-				# 	print(sent)
-				# 	print(sent[k])
-				# 	input()
 				elif (sent[k+1][0] == "\'s" or sent[k+1][0] == "’s"):
 					sent[k] = (sent[k][0], 'POSS')
 					sent[k+1] = (sent[k+1][0], 'POSS')
@@ -75,16 +70,22 @@ def getTriplets(ex):
 			):
 			nstr = nstr + sent[k][0] + " "
 
-		else:
-			if (len(nstr)>0):
+		else: #something other than NN encountered 
+			if (len(nstr)>0): # if there is a NN to write 
 				nstr = nstr.strip()
 				nn = (nstr,) + ("NN",)
-				ml.append(nn)
-				nstr = ""
-				ml.append(sent[k])
+				ml.append(nn) #write the NN
+				nstr = "" # clear the string
+				ml.append(sent[k]) # add the other-than-NN word
 			else:
-				ml.append(sent[k])
+				ml.append(sent[k]) #just add it
 		k+=1
+		if (k == len(sent)): #in case the last word was a noun in a sentence
+			nstr = nstr.strip()
+			nn = (nstr,) + ("NN",)
+			ml.append(nn)
+			nstr = ""
+
 
 	# print("NER MODIFIED")
 	# print(nltk.ne_chunk(ml))
@@ -225,9 +226,12 @@ def getTriplets(ex):
 	while k<len(ml):
 		if ("POSS" in ml[k][1]):
 
-			if (k+3 >= len(ml)):
-				print(ml[k-2], ml[k-1], ml[k])
-				input()
+			# if (k+3 >= len(ml)):
+			# 	print(ml[k-2], ml[k-1], ml[k], ml[k+1], ml[k+2])
+			# 	print(ex, len(ml), k)
+			# 	print(sent)
+			# 	print(ml)
+			# 	input()
 
 			n1 = ml[k][0].replace('\'s','').replace('’s','')
 			if ("POSS" in ml[k+1][1]):
@@ -281,7 +285,7 @@ def clearBrackets(article): # to clear the text written inside brackets
 
 output = [['industry', 'index', 's1', 'r', 's2']]
 #change path
-with open('/home/ritwik/Downloads/icdm_contest_data.csv', 'r') as csvFile:
+with open('SUMM_icdm_contest_data.csv', 'r') as csvFile:
 	reader = csv.reader(csvFile)
 	next(reader) #so that first line is ignored
 	k=0
@@ -290,7 +294,8 @@ with open('/home/ritwik/Downloads/icdm_contest_data.csv', 'r') as csvFile:
 		# print(row[1])
 		# input()
 		# continue
-		article = row[1] #picking article
+		article = row[4]
+		
 		article = clearBrackets(article)
 		triplets = []
 		for x in sent_tokenize(article):
@@ -313,7 +318,7 @@ with open('/home/ritwik/Downloads/icdm_contest_data.csv', 'r') as csvFile:
 		# if k>2: #just to see output from top 2 articles
 		# 	break
         
-file = open('tempcsv.csv','w')
+file = open('new_2.csv','w')
 for x in output:
 	for y in x:
 		file.write(y.replace(',','').replace('‘','\'').replace('’','\'').replace('“','\'').replace('”','\'')+', ')

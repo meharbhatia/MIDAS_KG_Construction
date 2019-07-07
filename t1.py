@@ -11,9 +11,10 @@ from nltk.tag import pos_tag
 ex = "The company also showcased its latest Dynasty series of vehicles, which were recently unveiled at the company’s spring product launch in Beijing."
 # ex = "A total of 23 new car models were exhibited at the event, held at Shanghai’s National Convention and Exhibition Center, fully demonstrating the BYD New Architecture (BNA) design, the 3rd generation of Dual Mode technology, plus the e-platform framework."
 # ex = "Today, China’s new energy vehicles have entered the ‘fast lane’, ushering in an even larger market outbreak. Presently, we stand at the intersection of old and new kinetic energy conversion for mobility, but also a new starting point for high-quality development."
-# ex = "Norway has a lot of electric cars, so many that it can make anyone driving a new vehicle with an internal combustion engine look like a Luddite."
+ex = "Norway has a lot of electric cars, so many that it can make anyone driving a new vehicle with an internal combustion engine look like a Luddite."
 # ex = "Usher in the French automobile manufacturer’s centenary."
 # ex = "Outside Oslo, where cars were larger and more upscale than in other parts of Europe, and Tesla vehicles (S and X) are a more common sight than around Los Angeles or the Bay Area, the EQC fit right in."
+# ex = "Despite its position as its best-selling sedan in the US, Mercedes-Benz might move C-Class production out of its Alabama plant, Automotive News reports, citing sources \"familiar with the situation.\""
 
 print(ex)
 

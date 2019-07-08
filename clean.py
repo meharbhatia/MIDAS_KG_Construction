@@ -28,7 +28,7 @@ with open('icdm_contest_data.csv', 'r') as csvFile:
 
 file = open('CLEANED_icdm_contest_data.csv','w')
 for x in output:
-	file.write(x[0]+", \""+x[1].replace('"','""')+"\", "+x[2])
+	file.write(x[0]+",\""+x[1].replace('"','""')+"\","+x[2])
 	file.write("\n")
 	# for y in x:
 	# 	file.write('"'+y.replace('"','""')+'"'+',')

@@ -246,6 +246,8 @@ def getTriplets(ex):
 				n2 = ml[k+1][0]
 				triplets.append((n2,)+(r,)+(n1,)) #order of n1 and n2 changed intentionally
 		k+=1
+
+		
 	# k=0
 	# while k<len(triplets):
 	# 	f = True
@@ -285,7 +287,7 @@ def clearBrackets(article): # to clear the text written inside brackets
 
 output = [['industry', 'index', 's1', 'r', 's2']]
 #change path
-with open('SUMM_icdm_contest_data.csv', 'r') as csvFile:
+with open('NEW_New_Coref_Dataset.csv', 'r') as csvFile:
 	reader = csv.reader(csvFile)
 	next(reader) #so that first line is ignored
 	k=0
@@ -294,8 +296,8 @@ with open('SUMM_icdm_contest_data.csv', 'r') as csvFile:
 		# print(row[1])
 		# input()
 		# continue
-		article = row[4]
-		
+		article = row[1]
+		# article = "BYD debuted BYD's E-SEED GT concept car and Song Pro SUV alongside BYD's all-new e-series models at the Shanghai International Automobile Industry Exhibition. BYD also showcased BYD latest Dynasty series of vehicles, which were recently unveiled at BYD spring product launch in Beijing. A total of 23 new car models were exhibited at its latest Dynasty series of vehicles, which were recently unveiled at the company’s spring product launch in Beijing, held at E’s National Convention and the Shanghai International Automobile Industry Exhibition Center, fully demonstrating the BYD New Architecture (BNA) design, the 3rd generation of Dual Mode technology, plus the e-platform framework. Today, China’s new energy vehicles have entered the ‘fast lane’, ushering in an even larger market outbreak. Presently, BYD stand at the intersection of old and new kinetic energy conversion for mobility, but also a new starting point for high-quality development. To meet the arrival of complete electrification, BYD has formulated a series of strategies, and is well prepared."
 		article = clearBrackets(article)
 		triplets = []
 		for x in sent_tokenize(article):
@@ -318,7 +320,7 @@ with open('SUMM_icdm_contest_data.csv', 'r') as csvFile:
 		# if k>2: #just to see output from top 2 articles
 		# 	break
         
-file = open('new_2.csv','w')
+file = open('new_5.csv','w')
 for x in output:
 	for y in x:
 		file.write(y.replace(',','').replace('‘','\'').replace('’','\'').replace('“','\'').replace('”','\'')+', ')

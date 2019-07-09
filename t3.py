@@ -188,10 +188,19 @@ def getTriplets(ex):
 			elif (len(entities)>0): # if no NN found after JJ and stack is not empty
 				n2 = entities[-1][0] # assume that the adjective is associated with last NN in stack
 				entities = []
-			for x in triplets:
-				if (n2 in x[0] or n2 in x[2]):
-					triplets.append((n1,)+(r,)+(n2,))
-					break
+			
+			tt=0
+			while tt<len(triplets):
+				if (n2 in triplets[tt][0]):
+					triplets[tt] = (n1 + " " + triplets[tt][0], triplets[tt][1], triplets[tt][2])
+				if (n2 in triplets[tt][2]):
+					triplets[tt] = (triplets[tt][0], triplets[tt][1], n1 + " " + triplets[tt][2])
+				tt+=1
+
+			# for x in triplets:
+			# 	if (n2 in x[0] or n2 in x[2]):
+			# 		triplets.append((n1,)+(r,)+(n2,))
+			# 		break
 
 		elif "NN" in ml[k][1]: 
 			entities.append(ml[k]) # stack of nouns NN
@@ -284,8 +293,12 @@ def clearBrackets(article): # to clear the text written inside brackets
 
 
 output = [['industry', 'index', 's1', 'r', 's2']]
+# for x in getTriplets(ex):
+# 	print(x)
+
+# input()
 #change path
-with open('SUMM_icdm_contest_data.csv', 'r') as csvFile:
+with open('CLEANED_icdm_contest_data.csv', 'r') as csvFile:
 	reader = csv.reader(csvFile)
 	next(reader) #so that first line is ignored
 	k=0
@@ -294,7 +307,7 @@ with open('SUMM_icdm_contest_data.csv', 'r') as csvFile:
 		# print(row[1])
 		# input()
 		# continue
-		article = row[4]
+		article = row[1]
 		
 		article = clearBrackets(article)
 		triplets = []
@@ -318,7 +331,7 @@ with open('SUMM_icdm_contest_data.csv', 'r') as csvFile:
 		# if k>2: #just to see output from top 2 articles
 		# 	break
         
-file = open('new_2.csv','w')
+file = open('new_3.csv','w')
 for x in output:
 	for y in x:
 		file.write(y.replace(',','').replace('‘','\'').replace('’','\'').replace('“','\'').replace('”','\'')+', ')

@@ -1,6 +1,22 @@
-Updates about submission
+## Updates are here ##
+
+Regarding other datasets:
+
+```icdm_contest_data.csv``` is default dataset
+
+Clean dataset is a cleaned dataset :p it changes ```cars—so``` to ```cars — so``` and it changes ```... old_word_old_line.New_word_from_new_line ...``` to ```... old_word_old_line. New_word_from_new_line ...``` (notice the space)
+
+```g050_Coref_Dataset.csv``` is a dataset with coreference resolution resolved using neuralcoref and greediness parameter set to ```0.50``` (which is default) Similarly ```g055_Coref_Dataset.csv``` has greediness = ```0.55```
+
+```New_Coref_Dataset.csv``` is a dataset also set at greediness at ```0.50``` just the difference is, it is sentence segmented also.
+
+Regarding submissions:
 
 ```new_6.csv``` is created by using spacyNER+rulebased , dataset input was cleaned dataset, removed isolated nodes (even with isolated nodes number of tupples were more or less same). Also when the error came, I replaced the new line character (```\n```) with ```<space>```.
+
+```new_7.csv``` has same parameter as that of ```new_6``` just the difference is, it has been run on ```g050_Coref_Dataset.csv```
+
+```new_8.csv``` has same parameter as that of ```new_6``` just the difference is, it has been run on ```g055_Coref_Dataset.csv```
 
 
 # 2019 ICDM/ICBK Knowledge Graph Contest #

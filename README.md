@@ -1,3 +1,5 @@
+Updates about submission
+```new_6.csv``` is created by using spacyNER+rulebased , dataset input was cleaned dataset, removed isolated nodes (even with isolated nodes number of tupples were more or less same)
 # 2019 ICDM/ICBK Knowledge Graph Contest #
 Link: http://icdm2019contest.mlamp.cn/#/app/home 
 

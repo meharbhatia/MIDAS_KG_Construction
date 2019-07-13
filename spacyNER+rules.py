@@ -30,14 +30,14 @@ def preprocess(sent):
 	return sent
 
 def getTriplets(ex):
-	print(ex)
+	# print(ex)
 	ex = ex.replace('‘','\'').replace('’','\'').replace('“',"\"").replace('”',"\"")
 
-	sent = preprocess(ex)
-	print("NORMAL POS TAGGING")
-	print(sent)
-	print("NER DEFAULT")
-	print(nltk.ne_chunk(sent))
+	# sent = preprocess(ex)
+	# print("NORMAL POS TAGGING")
+	# print(sent)
+	# print("NER DEFAULT")
+	# print(nltk.ne_chunk(sent))
 
 
 	triplets = []
@@ -47,7 +47,6 @@ def getTriplets(ex):
 	## NER is being performed here
 	doc = nlp(ex)
 	spacyml = [(X, X.ent_iob_, X.ent_type_) for X in doc]
-	print(len(sent), len(spacyml))
 	newml = []
 	# POS Tagging using spacy
 	pos_tags = [(i, i.tag_) for i in doc]
@@ -112,13 +111,13 @@ def getTriplets(ex):
 	newml = []
 
 
-	print("NER MODIFIED")
-	print(nltk.ne_chunk(ml))
-	for y in ml:
-		print(y)
+	# print("NER MODIFIED")
+	# print(nltk.ne_chunk(ml))
+	# for y in ml:
+	# 	print(y)
 
 
-	input()
+	# input()
 
 	ignore_verbs = ["is","was","were","will","shall","must","should","would","can","could","may","might"] #verbs which are often modal verbs
 	entities = []
@@ -277,28 +276,28 @@ def getTriplets(ex):
 				triplets.append((n2,)+(r,)+(n1,)) #order of n1 and n2 changed intentionally
 		k+=1
 
-	# to remove isolated nodes
-	# k=0
-	# while k<len(triplets):
-	# 	f = True
-	# 	p=0
-	# 	while p<len(triplets):
-	# 		if(p!=k):
-	# 			if (triplets[k][0]==triplets[p][0] or triplets[k][0]==triplets[p][2]
-	# 				or
-	# 				triplets[k][2]==triplets[p][0] or triplets[k][2]==triplets[p][2]):
-	# 				f = False
-	# 				break
-	# 		p+=1
-	# 	if(f):
-	# 		triplets = triplets[:k]+triplets[k+1:]
-	# 		k-=1
-	# 	k+=1
+	### to remove isolated nodes
+	k=0
+	while k<len(triplets):
+		f = True
+		p=0
+		while p<len(triplets):
+			if(p!=k):
+				if (triplets[k][0]==triplets[p][0] or triplets[k][0]==triplets[p][2]
+					or
+					triplets[k][2]==triplets[p][0] or triplets[k][2]==triplets[p][2]):
+					f = False
+					break
+			p+=1
+		if(f):
+			triplets = triplets[:k]+triplets[k+1:]
+			k-=1
+		k+=1
 
-	# to print triplets
-	print("Triplets modified")
-	for x in triplets:
-		print(x)
+	## to print triplets
+	# print("Triplets modified")
+	# for x in triplets:
+	# 	print(x)
 
 	return triplets
 
@@ -322,7 +321,7 @@ def clearBrackets(article): # to clear the text written inside brackets
 
 output = [['industry', 'index', 's1', 'r', 's2']]
 #change path
-with open('NEW_New_Coref_Dataset.csv', 'r') as csvFile:
+with open('CLEANED_icdm_contest_data.csv', 'r') as csvFile:
 	reader = csv.reader(csvFile)
 	next(reader) #so that first line is ignored
 	k=0
@@ -332,13 +331,14 @@ with open('NEW_New_Coref_Dataset.csv', 'r') as csvFile:
 		# input()
 		# continue
 		article = row[1]
-		article = "BYD debuted its E-SEED GT concept car and Song Pro SUV alongside its all-new e-series models at the Shanghai International Automobile Industry Exhibition. John Sowa Mayar\'s lawyer appealed to International Museum of Trade and Commerce to hear the case of Nirav Modi, Mehul Choksy and Ramanujam. A total of 23 new car models were exhibited at the event, held at Shanghai’s National Convention and Exhibition Center, fully demonstrating the BYD New Architecture (BNA) design, the 3rd generation of Dual Mode technology, plus the e-platform framework. Enlarge ImageBetween this and the Venue, \"Hyundai Motor Group\" is on a visual roll right now. What's the best way to market a car to millennials? By making one that's small enough for them to actually afford, duh. Kia on Tuesday unveiled the first sketches of its upcoming small SUV. We won't see the full thing until the summer, but for now, the sketches give us an idea of what Kia will bring to market in an effort to woo urbanite millennials into car ownership. The car will allegedly be a global SUV, meaning it's destined for a whole bunch of markets, but considering Autocar's report claims it won't be coming to Europe, it's uncertain if the US is involved in this rollout. It's also unclear if Kia actually understands what \"global\" means. From the design side, Kia apparently took a boatload of inspiration from its SP Signature Concept, which debuted at the Seoul Motor Show in March."
+		# article = "BYD debuted its E-SEED GT concept car and Song Pro SUV alongside its all-new e-series models at the Shanghai International Automobile Industry Exhibition. John Sowa Mayar\'s lawyer appealed to International Museum of Trade and Commerce to hear the case of Nirav Modi, Mehul Choksy and Ramanujam. A total of 23 new car models were exhibited at the event, held at Shanghai’s National Convention and Exhibition Center, fully demonstrating the BYD New Architecture (BNA) design, the 3rd generation of Dual Mode technology, plus the e-platform framework. Enlarge ImageBetween this and the Venue, \"Hyundai Motor Group\" is on a visual roll right now. What's the best way to market a car to millennials? By making one that's small enough for them to actually afford, duh. Kia on Tuesday unveiled the first sketches of its upcoming small SUV. We won't see the full thing until the summer, but for now, the sketches give us an idea of what Kia will bring to market in an effort to woo urbanite millennials into car ownership. The car will allegedly be a global SUV, meaning it's destined for a whole bunch of markets, but considering Autocar's report claims it won't be coming to Europe, it's uncertain if the US is involved in this rollout. It's also unclear if Kia actually understands what \"global\" means. From the design side, Kia apparently took a boatload of inspiration from its SP Signature Concept, which debuted at the Seoul Motor Show in March."
+		# article = "Mercedes, which makes C-Class sedans at its Alabama plant in Vance, is considering shifting that production out of the country to focus on SUVs and light trucks that are becoming more popular in the United States, according to Automotive News. (Photo by Joe Songer/AL.com)     By Greg Garrison | ggarrison@al.com     Mercedes-Benz, which makes C-Class sedans at its Alabama plant in Vance, is considering shifting that production out of the country to focus on SUVs and light trucks that are becoming more popular in the United States, according to Automotive News.“According to industry forecaster LMC Automotive, C-class sedan production in Vance will end in the fourth quarter of 2020,” Automotive News said. \"The SUV has really expanded from a consumer standpoint,\" said Jeff Schuster, president of global forecasting at LMC. \"That's where the volume is; that's where the future is."
 		article = clearBrackets(article)
 		triplets = []
 		for x in sent_tokenize(article):
 			ml = getTriplets(x) #getting triplets for each sentence
 			triplets+=ml
-			input() #to pause execution
+			# input() #to pause execution
 
 
 		#at this point triplets variable contains all the triples from the article
@@ -355,14 +355,14 @@ with open('NEW_New_Coref_Dataset.csv', 'r') as csvFile:
 
 		k+=1
 		print(str(k)+" / "+str(tlen))
-		if k>2: #just to see output from top 2 articles
-			break
+		# if k>2: #just to see output from top 2 articles
+		# 	break
 
 ## to write into a file
 file = open('new_6.csv','w')
 for x in output:
 	for y in x:
-		file.write(y.replace(',','').replace('‘','\'').replace('’','\'').replace('“','\'').replace('”','\'')+', ')
+		file.write(y.replace(',','').replace('‘','\'').replace('’','\'').replace('“','\'').replace('”','\'').replace('"','')+', ')
 	file.write("\n")
 file.close()
 csvFile.close()

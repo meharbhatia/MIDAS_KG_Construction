@@ -31,7 +31,7 @@ def preprocess(sent):
 
 def getTriplets(ex):
 	print(ex)
-	ex = ex.replace('‘','\'').replace('’','\'').replace('“','\'').replace('”','\'')
+	ex = ex.replace('‘','\'').replace('’','\'').replace('“',"\"").replace('”',"\"")
 
 	sent = preprocess(ex)
 	print("NORMAL POS TAGGING")
@@ -49,30 +49,22 @@ def getTriplets(ex):
 	spacyml = [(X, X.ent_iob_, X.ent_type_) for X in doc]
 	print(len(sent), len(spacyml))
 	newml = []
+	# POS Tagging using spacy
 	pos_tags = [(i, i.tag_) for i in doc]
 	sent = pos_tags
-	print("Spacy POS tagging")
-	print(sent)
-	print(spacyml)
 	nstr = ""
 	k=0
+	#this loop is only for NER using spacy
 	while k<len(spacyml):
-		# print(spacyml[k], end='')
-		# print("\t\t", end='')
-		# if (k<len(sent)):
-		# 	print(sent[k])
 
-
-		if (spacyml[k][1]=='O' or str(spacyml[k][0]) == "'s"):
+		if (spacyml[k][1]=='O' or str(spacyml[k][0]) == "'s"): # To know what is the meaning of 'O' go to https://towardsdatascience.com/named-entity-recognition-with-nltk-and-spacy-8c4a7d88e7da 
 			if (len(nstr)>0):
-				nn = (nstr.strip(),) + ("NN",)
+				nn = (nstr.strip(),) + ("NN",) #noun popping from the stack
 				newml.append(nn)
 				nstr = ""
 			newml.append((str(sent[k][0]),) + (str(sent[k][1]),))
-		else:
-			nstr = nstr + str(sent[k][0]) + " "
-
-
+		else: # if it is 'B' or 'L' or 'I' or 'U'
+			nstr = nstr + str(sent[k][0]) + " " #noun stacking (push) is being done
 
 		k+=1
 
@@ -80,26 +72,37 @@ def getTriplets(ex):
 	newml = []
 	nstr= ""
 	k=0
+	# here we added special rules because it was seen (manually) that spacy POS tree was not perfect although its NER was quite good
 	while k<len(ml):
-		if ( re.search(r'\d', ml[k][0]) ):
+		if ( re.search(r'\d', ml[k][0]) ): #if it has a number / numeric digit
 			ml[k] = (ml[k][0], "CD")
 			if (len(nstr)>0):
-				nn = (nstr.strip(),) + ("NN",)
+				nn = (nstr.strip(),) + ("NN",) # stack pop
 				newml.append(nn)
 				nstr = ""
 			newml.append(ml[k])
-		elif (k+1 < len(ml) and ml[k+1][1] == "POS"):
+		elif (k+1 < len(ml) and ml[k+1][1] == "POS"): #first condition is just for safety # second condition is to check for possession tags
 			ml[k] = (ml[k][0], "POS")
 			if (len(nstr)>0):
-				nn = (nstr.strip(),) + ("NN",)
+				nn = (nstr.strip(),) + ("NN",) # stack pop
 				newml.append(nn)
 				nstr = ""
 			newml.append(ml[k])
+			k+=1
+		elif (k+1 < len(ml) and ml[k+1][1]=="HYPH"): # first cond = safety # second condition is for hyphens 
+			if (len(nstr)>0):
+				nn = (nstr.strip(),) + ("NN",) # stack pop
+				newml.append(nn)
+				nstr = ""
+			if (k+2 < len(ml)):
+				nn = ( str(ml[k][0]+"-"+ml[k+2][0]), ) + ( str(ml[k][1]), ) #merge/concatenate the hyphenated words
+				newml.append(nn)
+			k+=2
 		elif ("NN" in ml[k][1]):
-			nstr = nstr + ml[k][0] + " "
+			nstr = nstr + ml[k][0] + " " #stack push IF nouns
 		else:
 			if (len(nstr)>0):
-				nn = (nstr.strip(),) + ("NN",)
+				nn = (nstr.strip(),) + ("NN",) # stack pop
 				newml.append(nn)
 				nstr = ""
 			newml.append(ml[k])
@@ -308,7 +311,7 @@ def clearBrackets(article): # to clear the text written inside brackets
 		if (article[k]==')'):
 			p2 = k
 		if(p1!=0 and p2!=0):
-			article = article[:p1]+article[p2+1:]
+			article = article[:p1]+article[p2+1:].strip()
 			p1 = p2 = 0
 		k+=1
 	article = article.replace('(','').replace('(','')
@@ -329,7 +332,7 @@ with open('NEW_New_Coref_Dataset.csv', 'r') as csvFile:
 		# input()
 		# continue
 		article = row[1]
-		article = "John Sowa Mayar\'s lawyer appealed to International Museum of Trade and Commerce to hear the case of Nirav Modi, Mehul Choksy and Ramanujam. Enlarge ImageBetween this and the Venue, \"Hyundai Motor Group\" is on a visual roll right now. What's the best way to market a car to millennials? By making one that's small enough for them to actually afford, duh. Kia on Tuesday unveiled the first sketches of its upcoming small SUV. We won't see the full thing until the summer, but for now, the sketches give us an idea of what Kia will bring to market in an effort to woo urbanite millennials into car ownership. The car will allegedly be a global SUV, meaning it's destined for a whole bunch of markets, but considering Autocar's report claims it won't be coming to Europe, it's uncertain if the US is involved in this rollout. It's also unclear if Kia actually understands what \"global\" means. From the design side, Kia apparently took a boatload of inspiration from its SP Signature Concept, which debuted at the Seoul Motor Show in March."
+		article = "BYD debuted its E-SEED GT concept car and Song Pro SUV alongside its all-new e-series models at the Shanghai International Automobile Industry Exhibition. John Sowa Mayar\'s lawyer appealed to International Museum of Trade and Commerce to hear the case of Nirav Modi, Mehul Choksy and Ramanujam. A total of 23 new car models were exhibited at the event, held at Shanghai’s National Convention and Exhibition Center, fully demonstrating the BYD New Architecture (BNA) design, the 3rd generation of Dual Mode technology, plus the e-platform framework. Enlarge ImageBetween this and the Venue, \"Hyundai Motor Group\" is on a visual roll right now. What's the best way to market a car to millennials? By making one that's small enough for them to actually afford, duh. Kia on Tuesday unveiled the first sketches of its upcoming small SUV. We won't see the full thing until the summer, but for now, the sketches give us an idea of what Kia will bring to market in an effort to woo urbanite millennials into car ownership. The car will allegedly be a global SUV, meaning it's destined for a whole bunch of markets, but considering Autocar's report claims it won't be coming to Europe, it's uncertain if the US is involved in this rollout. It's also unclear if Kia actually understands what \"global\" means. From the design side, Kia apparently took a boatload of inspiration from its SP Signature Concept, which debuted at the Seoul Motor Show in March."
 		article = clearBrackets(article)
 		triplets = []
 		for x in sent_tokenize(article):
@@ -355,11 +358,11 @@ with open('NEW_New_Coref_Dataset.csv', 'r') as csvFile:
 		if k>2: #just to see output from top 2 articles
 			break
 
-### to write into a file
-# file = open('new_5.csv','w')
-# for x in output:
-# 	for y in x:
-# 		file.write(y.replace(',','').replace('‘','\'').replace('’','\'').replace('“','\'').replace('”','\'')+', ')
-# 	file.write("\n")
-# file.close()
+## to write into a file
+file = open('new_6.csv','w')
+for x in output:
+	for y in x:
+		file.write(y.replace(',','').replace('‘','\'').replace('’','\'').replace('“','\'').replace('”','\'')+', ')
+	file.write("\n")
+file.close()
 csvFile.close()

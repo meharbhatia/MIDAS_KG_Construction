@@ -362,7 +362,7 @@ with open('CLEANED_icdm_contest_data.csv', 'r') as csvFile:
 file = open('new_6.csv','w')
 for x in output:
 	for y in x:
-		file.write(y.replace(',','').replace('‘','\'').replace('’','\'').replace('“','\'').replace('”','\'').replace('"','')+', ')
+		file.write(y.replace(',','').replace('‘','\'').replace('’','\'').replace('“','\'').replace('”','\'').replace('"','').replace('\n',' ')+', ')
 	file.write("\n")
 file.close()
 csvFile.close()

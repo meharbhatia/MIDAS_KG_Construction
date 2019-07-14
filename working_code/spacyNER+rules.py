@@ -34,9 +34,10 @@ def getTriplets(ex, show=False):
 		print(ex)
 	ex = ex.replace('‘','\'').replace('’','\'').replace('“',"\"").replace('”',"\"")
 
-	# sent = preprocess(ex)
-	# print("NORMAL POS TAGGING")
-	# print(sent)
+	sent = preprocess(ex)
+	if(show):
+		print("NORMAL POS TAGGING by nltk")
+		print(sent)
 	# print("NER DEFAULT")
 	# print(nltk.ne_chunk(sent))
 
@@ -52,6 +53,9 @@ def getTriplets(ex, show=False):
 	# POS Tagging using spacy
 	pos_tags = [(i, i.tag_) for i in doc]
 	sent = pos_tags
+	if(show):
+		print("POS tagging by Spacy")
+		print(sent)
 	nstr = ""
 	k=0
 	#this loop is only for NER using spacy
@@ -322,7 +326,7 @@ def clearBrackets(article): # to clear the text written inside brackets
 
 
 output = [['industry', 'index', 's1', 'r', 's2']]
-show = False
+show = True
 #change path
 with open('../datasets/g055_Coref_Dataset.csv', 'r') as csvFile:
 	reader = csv.reader(csvFile)
@@ -334,7 +338,7 @@ with open('../datasets/g055_Coref_Dataset.csv', 'r') as csvFile:
 		
 		#YOU CAN PUT AN ARTICLE HERE. It'll replace the article you fetched from dataset
 
-		# article = "Ritwik Mishra\'s lawyer appealed to International Museum of Trade and Commerce to hear the case of Nirav Modi, Mehul Choksy, Rahul Gandhi, Arvind Keriwal and Ramanujam. A total of 23 new car models were exhibited at the event, held at Shanghai’s National Convention and Exhibition Center, fully demonstrating the BYD New Architecture (BNA) design, the 3rd generation of Dual Mode technology, plus the e-platform framework. Enlarge ImageBetween this and the Venue, \"Hyundai Motor Group\" is on a visual roll right now. What's the best way to market a car to millennials? By making one that's small enough for them to actually afford, duh. Kia on Tuesday unveiled the first sketches of its upcoming small SUV. We won't see the full thing until the summer, but for now, the sketches give us an idea of what Kia will bring to market in an effort to woo urbanite millennials into car ownership. The car will allegedly be a global SUV, meaning it's destined for a whole bunch of markets, but considering Autocar's report claims it won't be coming to Europe, it's uncertain if the US is involved in this rollout. It's also unclear if Kia actually understands what \"global\" means. From the design side, Kia apparently took a boatload of inspiration from its SP Signature Concept, which debuted at the Seoul Motor Show in March."
+		article = "Ritwik Mishra\'s lawyer appealed to International Museum of Trade and Commerce to hear the case of Nirav Modi, Mehul Choksy, Rahul Gandhi, Arvind Keriwal and Ramanujam. A total of 23 new car models were exhibited at the event, held at Shanghai’s National Convention and Exhibition Center, fully demonstrating the BYD New Architecture (BNA) design, the 3rd generation of Dual Mode technology, plus the e-platform framework. Enlarge ImageBetween this and the Venue, \"Hyundai Motor Group\" is on a visual roll right now. What's the best way to market a car to millennials? By making one that's small enough for them to actually afford, duh. Kia on Tuesday unveiled the first sketches of its upcoming small SUV. We won't see the full thing until the summer, but for now, the sketches give us an idea of what Kia will bring to market in an effort to woo urbanite millennials into car ownership. The car will allegedly be a global SUV, meaning it's destined for a whole bunch of markets, but considering Autocar's report claims it won't be coming to Europe, it's uncertain if the US is involved in this rollout. It's also unclear if Kia actually understands what \"global\" means. From the design side, Kia apparently took a boatload of inspiration from its SP Signature Concept, which debuted at the Seoul Motor Show in March."
 		
 		article = clearBrackets(article)
 		triplets = []

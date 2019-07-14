@@ -324,7 +324,7 @@ def clearBrackets(article): # to clear the text written inside brackets
 output = [['industry', 'index', 's1', 'r', 's2']]
 show = False
 #change path
-with open('g055_Coref_Dataset.csv', 'r') as csvFile:
+with open('../datasets/g055_Coref_Dataset.csv', 'r') as csvFile:
 	reader = csv.reader(csvFile)
 	next(reader) #so that first line is ignored
 	k=0

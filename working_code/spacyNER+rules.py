@@ -49,6 +49,9 @@ def getTriplets(ex, show=False):
 	## NER is being performed here
 	doc = nlp(ex)
 	spacyml = [(X, X.ent_iob_, X.ent_type_) for X in doc]
+	if (show):
+		print("NER by spacy")
+		print(spacyml)
 	newml = []
 	# POS Tagging using spacy
 	pos_tags = [(i, i.tag_) for i in doc]

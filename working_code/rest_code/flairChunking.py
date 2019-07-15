@@ -27,6 +27,7 @@ print(pos_tags)
 
 listchunked = strchunked.split()
 
+
 # print(len(listchunked)/2, len(pos_tags))
 
 print('='*200)
@@ -43,5 +44,5 @@ for row in reader:
 		input('\nEnter for next line')
 
 csvFile.close()
-# print(listchunked)
+print(listchunked)
 

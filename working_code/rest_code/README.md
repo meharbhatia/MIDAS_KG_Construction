@@ -25,3 +25,5 @@ Regarding files (alphabetically):
 - ```textacy_svo_triplets.py``` Mehar will write on this
 
 - ```textsum.py``` creates a new dataset which also has summaries of news articles. One line and two line summaries. 
+
+- ```main.py``` extracts the triples from OPEN IE in the required submission format. 

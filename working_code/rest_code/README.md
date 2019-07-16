@@ -8,6 +8,8 @@ Regarding files (alphabetically):
 
 - ```Coreference.py.ipynb``` is a jupyter notebook file. It creates a dataset with resolved co-references. 
 
+- ```main.py``` extracts the triples from OPEN IE in the required submission format. 
+
 - ```mycorefsample.py``` is a sample file to see co-reference resolution on one sentence.
 
 - ```RuleBased_TripletsExtraction.py``` is outdated version of t2.py 
@@ -25,5 +27,3 @@ Regarding files (alphabetically):
 - ```textacy_svo_triplets.py``` Mehar will write on this
 
 - ```textsum.py``` creates a new dataset which also has summaries of news articles. One line and two line summaries. 
-
-- ```main.py``` extracts the triples from OPEN IE in the required submission format. 

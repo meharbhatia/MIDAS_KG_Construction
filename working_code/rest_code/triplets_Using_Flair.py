@@ -5,15 +5,17 @@ import spacy
 import en_core_web_sm
 import csv
 import nltk
+import re
 from nltk import sent_tokenize
 
 
 ex = 'The company also showcased it\'s latest Dynasty series of vehicles, which were recently unveiled at the company\'s spring product launch in Beijing'
-ex = 'BYD quickly debuted it\'s E-SEED GT concept car and Song Pro SUV alongside it\'s all-new e-series models at the Shanghai International Automobile Industry Exhibition'
-ex = 'Ritwik Mishra\'s lawyer appealed to Reserve Bank Of India to hear the case of Nirav Modi, Mehul Choksy, Rahul Gandhi, Arvind Keriwal and Ramanujam'
-ex = "John Sowa from India exhibited at the event, held at Shanghai’s National Convention and Exhibition Center, fully demonstrating the BYD New Architecture (BNA) design, the 3rd generation of Dual Mode technology, plus the e-platform framework"
-ex = "An Indian resident, John Sowa, exhibited at the event, held at Shanghai’s National Convention and Exhibition Center, fully demonstrating the BYD New Architecture (BNA) design, the 3rd generation of Dual Mode technology, plus the e-platform framework"
-ex = "A total of 23 new car models were exhibited at the event, held at Shanghai’s National Convention and Exhibition Center, fully demonstrating the BYD New Architecture (BNA) design, the 3rd generation of Dual Mode technology, plus the e-platform framework"
+# ex = 'BYD quickly debuted it\'s E-SEED GT concept car and Song Pro SUV alongside it\'s all-new e-series models at the Shanghai International Automobile Industry Exhibition'
+# ex = 'Ritwik Mishra\'s lawyer appealed to Reserve Bank Of India to hear the case of Nirav Modi, Mehul Choksy, Rahul Gandhi, Arvind Keriwal and Ramanujam'
+# ex = "John Sowa from India exhibited at the event, held at Shanghai’s National Convention and Exhibition Center, fully demonstrating the BYD New Architecture (BNA) design, the 3rd generation of Dual Mode technology, plus the e-platform framework"
+# ex = "An Indian resident, John Sowa, exhibited at the event, held at Shanghai’s National Convention and Exhibition Center, fully demonstrating the BYD New Architecture (BNA) design, the 3rd generation of Dual Mode technology, plus the e-platform framework"
+# ex = "A total of 23 new car models were exhibited at the event, held at Shanghai’s National Convention and Exhibition Center, fully demonstrating the BYD New Architecture (BNA) design, the 3rd generation of Dual Mode technology, plus the e-platform framework"
+# ex = "The car models exhibited had a minor dent on their hood"
 
 tagger = SequenceTagger.load('chunk')
 
@@ -93,6 +95,29 @@ while k < len(sentence):
 			m+=1
 	sentence[k] = ( ph.strip() , sentence[k][1])
 	k+=1
+
+for x in sentence:
+	print(x)
+
+k = 0
+while k < len(sentence):
+	ph = sentence[k][0].split()
+	p = 0
+	vbfound = False
+	while p < len(ph):
+		if (re.search(r'.*\^',ph[p]).group()[:-1] == "'s" or re.search(r'.*\^',ph[p]).group()[:-1] == "'"):
+			s = re.search(r'.*\^',ph[p-1]).group()[:-1] + "'s^POS " + ' '.join(ph[p+1:])
+			sentence[k] = (s.strip(), sentence[k][1])
+		if ("VB" in re.search(r'\^.*',ph[p]).group()[1:]):
+			if not(vbfound):
+				vbfound = True
+			else:
+				s = ' '.join(ph[p:])
+				sentence[k] = (s.strip(), sentence[k][1])
+		p+=1
+	k+=1
+
+print("\n\n")
 
 for x in sentence:
 	print(x)

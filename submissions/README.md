@@ -8,3 +8,7 @@ Regarding submissions:
 
 ```new_8.csv``` has same parameter as that of ```new_6``` just the difference is, it has been run on ```g055_Coref_Dataset.csv```
 
+```trial_submission.csv``` includes the triples when redundant triples have been removed from new_7.csv. Triples which do not have (NN, NNS, NNP, CD) in any of the node. Gave a score - 11.78 .
+
+```trial_submission_coref.csv``` includes the triples when redundant triples have been removed from coref_triplets.csv. Triples which do not have (NN, NNS, NNP, CD) in any of the node. Gave a score - 11.82.
+

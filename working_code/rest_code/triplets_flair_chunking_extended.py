@@ -20,6 +20,7 @@ from nltk import sent_tokenize, word_tokenize
 ex = "The Akash eagerly wanted Mehar Bhatia's black jackets, green umbrella of John Sowa and Ritwik Mishra's red jeans"
 # ex = "John went to the market by car, and Mary went to the school"
 # ex = "Akash Kumar Sharma's friend bought four new cars"
+ex = "John caught the running horse"
 
 tagger = SequenceTagger.load('chunk')
 
@@ -260,6 +261,8 @@ print("\n\n\tGENERATED TRIPLETS")
 # print(triplets)
 for x in triplets:
 	print(x)
+
+input('ENTER')
 	
 def preprocess(sent):
 	sent = nltk.word_tokenize(sent)
@@ -330,7 +333,8 @@ def getBrokenTriplets(ex):
 			nstr = ""
 
 
-	# print(ml)
+	print(ml)
+	input('enter here')
 	# DONE PERFECTLY 
 
 	# print("==========QUALITY==========")
@@ -481,10 +485,12 @@ for x in triplets:
 			getBrokenTriplets(trip)
 
 print(tripletsADDON)
+input('enter')
 
 
 print("\n\n\tFINAL TRIPLETS")
-triplets.append(tripletsADDON)
+# triplets.append(tripletsADDON)
+triplets = triplets + tripletsADDON
 for final in triplets:
 	print(final)
 

@@ -10,12 +10,12 @@ from nltk import sent_tokenize
 
 
 ex = 'The company also showcased it\'s latest Dynasty series of marvellous vehicles, which were recently unveiled at the company\'s spring product launch in Beijing'
-# ex = 'BYD quickly debuted it\'s E-SEED GT concept car and Song Pro SUV alongside it\'s all-new e-series models at the Shanghai International Automobile Industry Exhibition'
+ex = 'BYD quickly debuted it\'s E-SEED GT concept car and Song Pro SUV alongside it\'s all-new e-series models at the Shanghai International Automobile Industry Exhibition'
 # ex = 'Ritwik Mishra\'s lawyer appealed to Reserve Bank of India to hear the case of Nirav Modi, Mehul Choksy, Rahul Gandhi, Arvind Keriwal and Ramanujam'
 # ex = "John Sowa from India exhibited at the event, held at Shanghai’s National Convention and Exhibition Center, fully demonstrating the BYD New Architecture (BNA) design, the 3rd generation of Dual Mode technology, plus the e-platform framework"
 # ex = "An Indian resident, John Sowa, exhibited at the event, held at Shanghai’s National Convention and Exhibition Center, fully demonstrating the BYD New Architecture (BNA) design, the 3rd generation of Dual Mode technology, plus the e-platform framework"
 # ex = "A total of 23 new car models were exhibited at the event, held at Shanghai’s National Convention and Exhibition Center, fully demonstrating the BYD New Architecture (BNA) design, the 3rd generation of Dual Mode technology, plus the e-platform framework"
-ex = "John Sowa from India exhibited amazing dancing skills and performed Salsa at the event"
+# ex = "John Sowa from India exhibited amazing dancing skills and performed Salsa at the event"
 # ex = "\"What is your name?\", asked John"
 # ex = "That is the place where John died"
 # ex = "The Akash eagerly wanted Mehar Sharma's blue coloured jacket, green umbrella of John Sowa and Ritwik Mishra's red jeans"
@@ -23,7 +23,6 @@ ex = "John Sowa from India exhibited amazing dancing skills and performed Salsa 
 
 tagger = SequenceTagger.load('chunk')
 
-# sentence = Sentence('BYD quickly debuted it\'s E-SEED GT concept car and Song Pro SUV alongside it\'s all-new e-series models at the Shanghai International Automobile Industry Exhibition .')
 sentence = Sentence(ex)
 
 tagger.predict(sentence)
@@ -256,6 +255,9 @@ while k < len(sentence):
 print("\n\n\tGENERATED TRIPLETS")
 for x in triplets:
 	print(x)
+
+
+
 
 # print(len(listchunked)/2, len(pos_tags))
 

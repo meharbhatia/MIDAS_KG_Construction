@@ -26,7 +26,7 @@ ex = 'BYD quickly debuted it\'s E-SEED GT concept car and Song Pro SUV alongside
 tagger = SequenceTagger.load('chunk')
 
 def getTriplets(ex, show):
-	# ex = "John went to the market by car, and Mary went to the school"
+	ex = "RX also gets a brake-based torque vectoring system the subtly applies the brakes on the inner wheels for better handling and stability through turns. F Sport models get an updated Active Variable Suspension system that's said to be more responsive than before"
 	ex = ex.strip('.').strip('!').replace('‘','\'').replace('’','\'').replace('“','"').replace('”','"')
 	sentence = Sentence(ex)
 
@@ -122,7 +122,7 @@ def getTriplets(ex, show):
 				m = m2
 		if (len(ph) > 0):
 			sentence2.append([ ph.strip() , sentence[k][1] ])
-		elif (sentence[k][0][-1] != ','):
+		elif (sentence[k][0][-1] != ',' and ' ' not in sentence[k][0]):
 			sentence2.append( [sentence[k][0]+"^NN", sentence[k][1]])
 		k+=1
 
@@ -329,7 +329,7 @@ def clearBrackets(article): # to clear the text written inside brackets
 
 
 output = [['industry', 'index', 's1', 'r', 's2']]
-show = False
+show = True
 tvar = time.time()
 tlist = []
 #change path

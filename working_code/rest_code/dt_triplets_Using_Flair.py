@@ -333,7 +333,7 @@ show = False
 tvar = time.time()
 tlist = []
 #change path
-with open('../../datasets/g050_Coref_Dataset.csv', 'r') as csvFile:
+with open('../../datasets/CLEANED_icdm_contest_data.csv', 'r') as csvFile:
 	reader = csv.reader(csvFile)
 	next(reader) #so that first line is ignored
 	k=0
@@ -382,7 +382,7 @@ if(show):
 	exit()
 
 ## to write into a file
-file = open('new_9.csv','w')
+file = open('new_10.csv','w')
 for x in output:
 	for y in x:
 		file.write(y.replace(',','').replace('‘','\'').replace('’','\'').replace('“','\'').replace('”','\'').replace('"','').replace('\n',' ')+', ')

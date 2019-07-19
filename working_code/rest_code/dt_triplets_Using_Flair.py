@@ -26,7 +26,7 @@ ex = 'BYD quickly debuted it\'s E-SEED GT concept car and Song Pro SUV alongside
 tagger = SequenceTagger.load('chunk')
 
 def getTriplets(ex, show):
-
+	# ex = "John went to the market by car, and Mary went to the school"
 	ex = ex.strip('.').strip('!').replace('‘','\'').replace('’','\'').replace('“','"').replace('”','"')
 	sentence = Sentence(ex)
 
@@ -95,23 +95,31 @@ def getTriplets(ex, show):
 		for x in sentence:
 			print(x)
 
+	
+	tf = False
 	k=m=0
 	sentence2 = []
 	while k < len(sentence):
 		ph = ""
 		for x in nltk.word_tokenize(sentence[k][0]):
-			while m < len(pos_tags):
-				if (x.strip('.') == pos_tags[m][0].strip('.')):
+			m2 = m #old value of m
+			while m < len(pos_tags): #find the pos tag of x
+				if (x.strip('.') == pos_tags[m][0].strip('.')): #found the pos tag of x
 					if(pos_tags[m][1]=="RB" or pos_tags[m][1]=="DT" or pos_tags[m][1]=="." or pos_tags[m][1]=="``"):
 						break
 					if (pos_tags[m][1]==","):
-						sentence2.append([ ph.strip() , sentence[k][1] ])
-						ph = ""
+						if (len(ph) > 0):
+							sentence2.append([ ph.strip() , sentence[k][1] ])
+							ph = ""
 					else:
 						ph = ph.strip() + " " +x+"^"+pos_tags[m][1]
 					m+=1
 					break
+				# elif (x == "have"):
+				# 	print(pos_tags[m], m)
 				m+=1
+			if (m == len(pos_tags) and m2 != len(pos_tags)):
+				m = m2
 		if (len(ph) > 0):
 			sentence2.append([ ph.strip() , sentence[k][1] ])
 		elif (sentence[k][0][-1] != ','):
@@ -123,6 +131,7 @@ def getTriplets(ex, show):
 		print("CHUNKS with POS tags")
 		for x in sentence2:
 			print(x)
+
 
 	sentence = sentence2
 
@@ -148,12 +157,12 @@ def getTriplets(ex, show):
 				ph = sentence[k][0].split()
 				p-=1
 				s = ""
-			if ("VB" in re.search(r'\^.*',ph[p]).group()[1:]):
-				if not(vbfound):
-					vbfound = True
-				else:
-					s = ' '.join(ph[p:])
-					sentence[k] = (s.strip(), sentence[k][1])
+			# if ("VB" in re.search(r'\^.*',ph[p]).group()[1:]):
+			# 	if not(vbfound):
+			# 		vbfound = True
+			# 	else:
+			# 		s = ' '.join(ph[p:])
+			# 		sentence[k] = (s.strip(), sentence[k][1])
 			if (re.search(r'\^.*',ph[p]).group()[1:][0] == 'W'):
 				sentence = sentence[:k] + (sentence[k+1:] if k+1 < len(sentence) else [])
 				k-=1
@@ -250,7 +259,7 @@ def getTriplets(ex, show):
 				k+=2
 				continue
 
-		if (sentence[k][1] == "CC" and k < len(sentence) and sentence[k+1][1] == "NP"):
+		if (sentence[k][1] == "CC" and k+1 < len(sentence) and sentence[k+1][1] == "NP"):
 			k2 = k 
 			verbFound = False
 			while (k2 < len(sentence)):
@@ -267,7 +276,33 @@ def getTriplets(ex, show):
 				while (k2 >= 0 and sentence[k2][1] != "VP"):
 					k2-=1
 				if k2 != 0:
-					triplets.append([sentence[k2-1][0], sentence[k2][0], nouns[-1]])
+					r = sentence[k2][0]
+					if (k2+1 < len(sentence) and sentence[k2+1][1] == "PP"):
+						r = r + " " + sentence[k2+1][0]
+					triplets.append([sentence[k2-1][0], r, nouns[-1]])
+
+		elif (sentence[k][1] == "CC" and k+2 < len(sentence) and sentence[k+1][1] == "VP" and len(triplets) >= 1):
+			# n1 = triplets[0][0]
+
+			k2 = k
+			while (k2 >= 0 and sentence[k2][1] != "VP"):
+				k2-=1
+
+			if k2 != 0:
+				n1 = sentence[k2-1][0]
+			else:
+				n1 = triplets[0][0]
+
+			# print("here")
+			k+=1
+			r = sentence[k][0]
+			if ( k+1 < len(sentence) and sentence[k+1][1] == "PP"):
+				r = r + " " + sentence[k][0]
+				k+=1
+			n2 = sentence[k+1][0]
+			nouns.append(n2)
+			triplets.append([n1,r,n2])
+
 		k+=1
 	if(show):
 		print("\n\n\tGENERATED TRIPLETS")
@@ -309,7 +344,7 @@ with open('../../datasets/g050_Coref_Dataset.csv', 'r') as csvFile:
 		#YOU CAN PUT AN ARTICLE HERE. It'll replace the article you fetched from dataset
 
 		# article = "May 15, 2019, 4:11am ETby Ronan GlonThe Coupe line-up gains a mid-range model. Porsche has expanded the Cayenne Coupe line-up with a mid-range model called S. Porsche slots between the entry-level Cayenne Coupe and the range-topping Cayenne Coupe Turbo in the growing model hierarchy. ETby Ronan GlonThe Coupe is mechanically identical to the Cayenne S that's already part of the Porsche family. That means power comes from a twin-turbocharged, 2.9-liter V6 engine tuned to develop 434 horsepower from 5,700 to 6,600 rpm and 405 pound-feet of torque over a broad range that stretches from 1,800 to 5,500 rpm. The six spins the four wheels through an eight-speed automatic transmission. Porsche pegs the mid-range model's zero-to-60-mph time at 4.7 seconds with the standard Sport Chrono package, and Porsche top speed at 164 mph."
-		
+		# article = "Since then, Nissan says more than 20% of buyers in the U.S. have opted for the $1,350 package. (Photo: Nissan)All-wheel drive sedans used to be a niche market limited to park rangers and uptight snow-belt drivers. These days, These days’re becoming a more popular choice for decidedly mainstream models. The latest entrants to the all-wheel stable include the Mazda6, Nissan Altima and Toyota Prius. As sales of crossovers, sport utility vehicles and pickups have grown, automakers are equipping more of automakers sedans with all-wheel drive to hang onto buyers wanting more SUV-like features. All-wheel or four-wheel drive is standard on most SUVs and trucks, helping to boost its availability to a record 63.4% of new vehicles sold last year, up from 56.4% a decade ago, according to data from Edmunds."
 		article = clearBrackets(article)
 		triplets = []
 		for x in sent_tokenize(article):

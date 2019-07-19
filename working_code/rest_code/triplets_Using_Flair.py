@@ -20,6 +20,7 @@ ex = 'BYD quickly debuted it\'s E-SEED GT concept car and Song Pro SUV alongside
 # ex = "That is the place where John died"
 # ex = "The Akash eagerly wanted Mehar Sharma's blue coloured jacket, green umbrella of John Sowa and Ritwik Mishra's red jeans"
 # ex = "John went to the market by car, and Mary went to the school"
+ex = "John was walking near the ocean and bought sea-shells"
 
 tagger = SequenceTagger.load('chunk')
 
@@ -234,6 +235,7 @@ while k < len(sentence):
 
 	if (sentence[k][1] == "CC" and k < len(sentence) and sentence[k+1][1] == "NP"):
 		k2 = k 
+		# print("here"*10)
 		verbFound = False
 		while (k2 < len(sentence)):
 			if (sentence[k2][1] == 'VP'):
@@ -250,6 +252,31 @@ while k < len(sentence):
 				k2-=1
 			if k2 != 0:
 				triplets.append([sentence[k2-1][0], sentence[k2][0], nouns[-1]])
+
+	elif (sentence[k][1] == "CC" and k+2 < len(sentence) and sentence[k+1][1] == "VP" and len(triplets) >= 1):
+		# n1 = triplets[0][0]
+
+		k2 = k
+		while (k2 >= 0 and sentence[k2][1] != "VP"):
+			k2-=1
+
+		if k2 != 0:
+			n1 = sentence[k2-1][0]
+		else:
+			n1 = triplets[0][0]
+
+		# print("here")
+		k+=1
+		r = sentence[k][0]
+		if ( k+1 < len(sentence) and sentence[k+1][1] == "PP"):
+			r = r + " " + sentence[k][0]
+			k+=1
+		n2 = sentence[k+1][0]
+		nouns.append(n2)
+		triplets.append([n1,r,n2])
+
+
+
 	k+=1
 
 print("\n\n\tGENERATED TRIPLETS")

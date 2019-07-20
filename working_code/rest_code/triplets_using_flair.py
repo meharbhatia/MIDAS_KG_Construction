@@ -333,9 +333,9 @@ def getTriplets(ex, show, tagger):
 		p=0
 		while p<len(triplets):
 			if(p!=k):
-				if (triplets[k][0]==triplets[p][0] or triplets[k][0]==triplets[p][2]
+				if ((len(triplets[k][0]) > 1 and len(triplets[k][2]) > 1) and (triplets[k][0]==triplets[p][0] or triplets[k][0]==triplets[p][2]
 					or
-					triplets[k][2]==triplets[p][0] or triplets[k][2]==triplets[p][2]):
+					triplets[k][2]==triplets[p][0] or triplets[k][2]==triplets[p][2])):
 					f = False
 					break
 			p+=1

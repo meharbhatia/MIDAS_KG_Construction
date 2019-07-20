@@ -7,7 +7,7 @@ import numpy as np
 def is_colname_valid(df): 
 	user_columns = df.columns.values.tolist()
 	target_columns = set(['industry', 'index', 's1', 's2', 'r'])
-	print(target_columns, user_columns)
+	# print(target_columns, user_columns)
 	assert target_columns.issubset(user_columns), 'Invalid column names.'
 
 def is_index_integer(df):
@@ -16,7 +16,7 @@ def is_index_integer(df):
 
 def is_tuple_string(df):
 	for i, row in df.iterrows():
-		assert  isinstance(row['s1'],str) and isinstance(row['s2'],str),'Invalid triplet on row: '+ str(i)
+		assert  isinstance(row['s1'],str) and isinstance(row['s2'],str),'Invalid triplet on row: '+ str(i) + str(row)
 
 def is_industry_valid(df):
 	user_industry = set(list(df['industry']))

@@ -1,8 +1,8 @@
 
-file = open('../../submissions/new_12_withJjPosCdExtractor.csv','r')
+file = open('../../submissions/new_13_withJjPosCdExtractor.csv','r')
 content = file.readlines()
 file.close()
-file = open('../../submissions/new_12_withJjPosCdExtractor.csv','w')
+file = open('../../submissions/new_13_withJjPosCdExtractor.csv','w')
 
 k=0
 while k<len(content):

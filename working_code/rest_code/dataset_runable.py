@@ -97,10 +97,15 @@ if(show):
 	exit()
 
 ## to write into a file
-file = open('new_12_withJjPosCdExtractor.csv','w')
+file = open('new_13_withoutJJ_withPosCdExtractor.csv','w')
 for x in output:
-	for y in x:
-		file.write(y.replace(';','').replace(',','').replace('‘','\'').replace('’','\'').replace('“','\'').replace('”','\'').replace('"','').replace('\n',' ')+',')
+	k=0
+	while k<len(x):
+		file.write(x[k].replace(';','').replace(',','').replace('‘','\'').replace('’','\'').replace('“','\'').replace('”','\'').replace('"','').replace('\n',' '))
+		if(k+1 != len(x)):
+			file.write(',')
+		k+=1
+
 	file.write("\n")
 file.close()
 csvFile.close()

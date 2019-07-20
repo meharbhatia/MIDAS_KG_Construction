@@ -43,7 +43,7 @@ def extractor(tupple):
 		k+=1
 
 	reducedTriplets.append([' '.join(tags), tupple[1]])
-	if (pos != "" and len(mylist) > 0):
+	if (pos != "" and len(mylist) > 0 and len(pos.strip("'s").strip()) > 0):
 		reducedTriplets.append([' '.join(mylist), 'belongs-to', pos.strip("'s").strip()])
 	# if (jj != "" and len(mylist) > 0):
 	if (False):

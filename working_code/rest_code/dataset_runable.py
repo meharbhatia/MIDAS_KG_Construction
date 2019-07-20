@@ -44,11 +44,11 @@ def clearBrackets(article): # to clear the text written inside brackets
 
 
 output = [['industry', 'index', 's1', 'r', 's2']]
-show = True
+show = False
 tvar = time.time()
 tlist = []
 #change path
-with open('../../datasets/CLEANED_icdm_contest_data.csv', 'r') as csvFile:
+with open('../../datasets/g055_Coref_Dataset.csv', 'r') as csvFile:
 	reader = csv.reader(csvFile)
 	next(reader) #so that first line is ignored
 	k=0
@@ -97,10 +97,10 @@ if(show):
 	exit()
 
 ## to write into a file
-file = open('new_10.csv','w')
+file = open('new_12_withJjPosCdExtractor.csv','w')
 for x in output:
 	for y in x:
-		file.write(y.replace(',','').replace('‘','\'').replace('’','\'').replace('“','\'').replace('”','\'').replace('"','').replace('\n',' ')+', ')
+		file.write(y.replace(';','').replace(',','').replace('‘','\'').replace('’','\'').replace('“','\'').replace('”','\'').replace('"','').replace('\n',' ')+', ')
 	file.write("\n")
 file.close()
 csvFile.close()

@@ -1,5 +1,6 @@
 import re
 
+
 def extractor(tupple):
 	reducedTriplets= []
 	secondtuple = tupple
@@ -42,15 +43,17 @@ def extractor(tupple):
 		k+=1
 
 	reducedTriplets.append([' '.join(tags), tupple[1]])
-	if (pos != ""):
-		reducedTriplets.append([' '.join(mylist), 'belongs-to', pos.strip("'s")])
-	if (jj != ""):
+	if (pos != "" and len(mylist) > 0):
+		reducedTriplets.append([' '.join(mylist), 'belongs-to', pos.strip("'s").strip()])
+	if (jj != "" and len(mylist) > 0):
 		for x in jj.strip().split():
 			reducedTriplets.append([x, 'quality', ' '.join(mylist)])
-	if (cd != ""):
+	if (cd != "" and len(mylist) > 0):
 		reducedTriplets.append([cd, 'number', ' '.join(mylist)])
 	return reducedTriplets
 
-tupple = ("Mehar^NNP Sharma^NNP 's^POS blue^NN coloured^VBD jacket^NN", 'NP')
-for x in extractor(tupple):
-	print(x)
+if __name__ == "__main__":
+	tupple = ("Mehar^NNP Sharma^NNP 's^POS blue^NN coloured^VBD jacket^NN", 'NP')
+	print(tupple)
+	for x in extractor(tupple):
+		print(x)

@@ -24,11 +24,11 @@ def extractor(tupple):
 			tags = tags[k+1:]
 			k=-1
 
-		# elif (tags[k] == "JJ"):
-		# 	jj = jj + " " + mylist[k]
-		# 	mylist = mylist[:k] + (mylist[k+1:] if k+1 < len(mylist) else [])
-		# 	tags = tags[:k] + (tags[k+1:] if k+1 < len(tags) else [])
-		# 	k=-1
+		elif (tags[k] == "JJ"):
+			jj = jj + " " + mylist[k]
+			mylist = mylist[:k] + (mylist[k+1:] if k+1 < len(mylist) else [])
+			tags = tags[:k] + (tags[k+1:] if k+1 < len(tags) else [])
+			k=-1
 
 		elif (tags[k] == "CD"):
 			cd = mylist[k]

@@ -44,7 +44,7 @@ def clearBrackets(article): # to clear the text written inside brackets
 
 
 output = [['industry', 'index', 's1', 'r', 's2']]
-show = False
+show = True
 tvar = time.time()
 tlist = []
 #change path
@@ -57,9 +57,7 @@ with open('../../datasets/g050_Coref_Dataset.csv', 'r') as csvFile:
 		article = row[1]
 
 		#YOU CAN PUT AN ARTICLE HERE. It'll replace the article you fetched from dataset
-
-		# article = "May 15, 2019, 4:11am ETby Ronan GlonThe Coupe line-up gains a mid-range model. Porsche has expanded the Cayenne Coupe line-up with a mid-range model called S. Porsche slots between the entry-level Cayenne Coupe and the range-topping Cayenne Coupe Turbo in the growing model hierarchy. ETby Ronan GlonThe Coupe is mechanically identical to the Cayenne S that's already part of the Porsche family. That means power comes from a twin-turbocharged, 2.9-liter V6 engine tuned to develop 434 horsepower from 5,700 to 6,600 rpm and 405 pound-feet of torque over a broad range that stretches from 1,800 to 5,500 rpm. The six spins the four wheels through an eight-speed automatic transmission. Porsche pegs the mid-range model's zero-to-60-mph time at 4.7 seconds with the standard Sport Chrono package, and Porsche top speed at 164 mph."
-		# article = "Since then, Nissan says more than 20% of buyers in the U.S. have opted for the $1,350 package. (Photo: Nissan)All-wheel drive sedans used to be a niche market limited to park rangers and uptight snow-belt drivers. These days, These days’re becoming a more popular choice for decidedly mainstream models. The latest entrants to the all-wheel stable include the Mazda6, Nissan Altima and Toyota Prius. As sales of crossovers, sport utility vehicles and pickups have grown, automakers are equipping more of automakers sedans with all-wheel drive to hang onto buyers wanting more SUV-like features. All-wheel or four-wheel drive is standard on most SUVs and trucks, helping to boost its availability to a record 63.4% of new vehicles sold last year, up from 56.4% a decade ago, according to data from Edmunds."
+		article = "BYD debuted its E-SEED GT concept car and Song Pro SUV alongside its all-new e-series models at the Shanghai International Automobile Industry Exhibition. The company also showcased its latest Dynasty series of vehicles, which were recently unveiled at the company’s spring product launch in Beijing. A total of 23 new car models were exhibited at the event, held at Shanghai’s National Convention and Exhibition Center, fully demonstrating the BYD New Architecture (BNA) design, the 3rd generation of Dual Mode technology, plus the e-platform framework."
 		article = clearBrackets(article)
 		triplets = []
 		for x in sent_tokenize(article):

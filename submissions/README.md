@@ -14,6 +14,8 @@ Regarding submissions:
 
 - ```new_12_withJjPosCdExtractor``` is generated from flair chunker + JJPOSCDExtractor, dataset used was g050. Score = 12.6
 
+- ```new_13_withoutJJ_withPosCdExtractor.csv``` is same as new12, the difference is JJ are not extracted instead they are kept intact. Only POS and CD are extracted. Isolated triplets are removed. Also the triplets which has empty nodes or nodes with only one alphabet are removed. Dataset used is g050. Score 12.21.
+
 - ```trial_submission_coref.csv``` includes the triples when redundant triples have been removed from coref_triplets.csv. Triples which do not have (NN, NNS, NNP, CD) in any of the node. Gave a score - 11.82.
 
 - ```trial_submission.csv``` includes the triples when redundant triples have been removed from new_7.csv. Triples which do not have (NN, NNS, NNP, CD) in any of the node. Gave a score - 11.78 .

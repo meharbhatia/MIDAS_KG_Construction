@@ -100,7 +100,7 @@ if(show):
 file = open('new_12_withJjPosCdExtractor.csv','w')
 for x in output:
 	for y in x:
-		file.write(y.replace(';','').replace(',','').replace('‘','\'').replace('’','\'').replace('“','\'').replace('”','\'').replace('"','').replace('\n',' ')+', ')
+		file.write(y.replace(';','').replace(',','').replace('‘','\'').replace('’','\'').replace('“','\'').replace('”','\'').replace('"','').replace('\n',' ')+',')
 	file.write("\n")
 file.close()
 csvFile.close()

@@ -12,6 +12,8 @@ Regarding submissions:
 
 - ```news_10.csv``` is same as new_9 just the difference is dataset. It used cleaned dataset.
 
+- ```new_12_withJjPosCdExtractor``` is generated from flair chunker + JJPOSCDExtractor, dataset used was g050. Score = 12.6
+
 - ```trial_submission_coref.csv``` includes the triples when redundant triples have been removed from coref_triplets.csv. Triples which do not have (NN, NNS, NNP, CD) in any of the node. Gave a score - 11.82.
 
 - ```trial_submission.csv``` includes the triples when redundant triples have been removed from new_7.csv. Triples which do not have (NN, NNS, NNP, CD) in any of the node. Gave a score - 11.78 .

@@ -142,6 +142,9 @@ def getTriplets(ex, show, tagger):
 	while k<len(sentence):
 		temptriplets = extractor(sentence[k])
 		sentence[k] = temptriplets[0]
+		if (len(sentence[k][0]) == 0):
+			sentence = sentence[:k] + (sentence[k+1:] if k+1 < len(sentence) else [])
+			k-=1
 		triplets = triplets + temptriplets[1:]
 		k+=1
 
@@ -322,6 +325,25 @@ def getTriplets(ex, show, tagger):
 			triplets.append([n1,r,n2])
 
 		k+=1
+
+	### to remove isolated nodes
+	k=0
+	while k<len(triplets):
+		f = True
+		p=0
+		while p<len(triplets):
+			if(p!=k):
+				if (triplets[k][0]==triplets[p][0] or triplets[k][0]==triplets[p][2]
+					or
+					triplets[k][2]==triplets[p][0] or triplets[k][2]==triplets[p][2]):
+					f = False
+					break
+			p+=1
+		if(f):
+			triplets = triplets[:k]+triplets[k+1:]
+			k-=1
+		k+=1
+
 	if(show):
 		print("\n\n\tGENERATED TRIPLETS")
 		for x in triplets:

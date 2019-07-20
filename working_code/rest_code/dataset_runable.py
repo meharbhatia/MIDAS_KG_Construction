@@ -48,7 +48,7 @@ show = False
 tvar = time.time()
 tlist = []
 #change path
-with open('../../datasets/g055_Coref_Dataset.csv', 'r') as csvFile:
+with open('../../datasets/g050_Coref_Dataset.csv', 'r') as csvFile:
 	reader = csv.reader(csvFile)
 	next(reader) #so that first line is ignored
 	k=0

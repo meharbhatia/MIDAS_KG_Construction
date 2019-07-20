@@ -24,11 +24,11 @@ def extractor(tupple):
 			tags = tags[k+1:]
 			k=-1
 
-		elif (tags[k] == "JJ"):
-			jj = jj + " " + mylist[k]
-			mylist = mylist[:k] + (mylist[k+1:] if k+1 < len(mylist) else [])
-			tags = tags[:k] + (tags[k+1:] if k+1 < len(tags) else [])
-			k=-1
+		# elif (tags[k] == "JJ"):
+		# 	jj = jj + " " + mylist[k]
+		# 	mylist = mylist[:k] + (mylist[k+1:] if k+1 < len(mylist) else [])
+		# 	tags = tags[:k] + (tags[k+1:] if k+1 < len(tags) else [])
+		# 	k=-1
 
 		elif (tags[k] == "CD"):
 			cd = mylist[k]
@@ -45,7 +45,8 @@ def extractor(tupple):
 	reducedTriplets.append([' '.join(tags), tupple[1]])
 	if (pos != "" and len(mylist) > 0):
 		reducedTriplets.append([' '.join(mylist), 'belongs-to', pos.strip("'s").strip()])
-	if (jj != "" and len(mylist) > 0):
+	# if (jj != "" and len(mylist) > 0):
+	if (False):
 		for x in jj.strip().split():
 			reducedTriplets.append([x, 'quality', ' '.join(mylist)])
 	if (cd != "" and len(mylist) > 0):
@@ -53,7 +54,7 @@ def extractor(tupple):
 	return reducedTriplets
 
 if __name__ == "__main__":
-	tupple = ("Mehar^NNP Sharma^NNP 's^POS blue^NN coloured^VBD jacket^NN", 'NP')
+	tupple = ("many^JJ", 'NP')
 	print(tupple)
 	for x in extractor(tupple):
 		print(x)

@@ -8,11 +8,12 @@ from nltk import sent_tokenize
 
 
 
-
+ex = "The company also showcased its latest Dynasty series of vehicles, which were recently unveiled at the company’s spring product launch in Beijing"
+ex = "There are a lot of cars in Los Angeles"
 tagger = SequenceTagger.load('chunk')
 
 # sentence = Sentence('BYD quickly debuted it\'s E-SEED GT concept car and Song Pro SUV alongside it\'s all-new e-series models at the Shanghai International Automobile Industry Exhibition .')
-sentence = Sentence("The company also showcased its latest Dynasty series of vehicles, which were recently unveiled at the company’s spring product launch in Beijing")
+sentence = Sentence(ex)
 
 tagger.predict(sentence)
 strchunked = sentence.to_tagged_string()

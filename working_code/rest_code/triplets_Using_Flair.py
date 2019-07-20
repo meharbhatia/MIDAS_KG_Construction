@@ -9,6 +9,7 @@ import re
 from nltk import sent_tokenize
 
 
+
 ex = 'The company also showcased it\'s latest Dynasty series of marvellous vehicles, which were recently unveiled at the company\'s spring product launch in Beijing'
 ex = 'BYD quickly debuted it\'s E-SEED GT concept car and Song Pro SUV alongside it\'s all-new e-series models at the Shanghai International Automobile Industry Exhibition'
 # ex = 'Ritwik Mishra\'s lawyer appealed to Reserve Bank of India to hear the case of Nirav Modi, Mehul Choksy, Rahul Gandhi, Arvind Keriwal and Ramanujam'
@@ -18,9 +19,9 @@ ex = 'BYD quickly debuted it\'s E-SEED GT concept car and Song Pro SUV alongside
 # ex = "John Sowa from India exhibited amazing dancing skills and performed Salsa at the event"
 # ex = "\"What is your name?\", asked John"
 # ex = "That is the place where John died"
-# ex = "The Akash eagerly wanted Mehar Sharma's blue coloured jacket, green umbrella of John Sowa and Ritwik Mishra's red jeans"
+ex = "The Akash eagerly wanted Mehar Sharma's blue coloured jacket, green umbrella of John Sowa, and Ritwik Mishra's big black red jeans"
 # ex = "John went to the market by car, and Mary went to the school"
-ex = "John was walking near the ocean and bought sea-shells"
+# ex = "John was walking near the ocean and bought sea-shells"
 
 tagger = SequenceTagger.load('chunk')
 

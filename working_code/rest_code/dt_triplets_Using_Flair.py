@@ -25,10 +25,64 @@ ex = 'BYD quickly debuted it\'s E-SEED GT concept car and Song Pro SUV alongside
 
 tagger = SequenceTagger.load('chunk')
 
+def extractor(tupple):
+	reducedTriplets= []
+	secondtuple = tupple
+	mylist = tupple[0].split()
+	tags = []
+
+	k=0
+	while k<len(mylist):
+		tags.append(re.search(r'\^.*',mylist[k]).group()[1:])
+		mylist[k] = re.search(r'.*\^',mylist[k]).group()[:-1]
+		k+=1
+
+	k=0
+	pos = ""
+	jj = ""
+	cd = ""
+	while k < len(tags):
+		if (tags[k] == "POS" and k+1 < len(tags)):
+			pos = ' '.join(mylist[:k+1])
+			mylist = mylist[k+1:]
+			tags = tags[k+1:]
+			k=-1
+
+		elif (tags[k] == "JJ"):
+			jj = jj + " " + mylist[k]
+			mylist = mylist[:k] + (mylist[k+1:] if k+1 < len(mylist) else [])
+			tags = tags[:k] + (tags[k+1:] if k+1 < len(tags) else [])
+			k=-1
+
+		elif (tags[k] == "CD"):
+			cd = mylist[k]
+			mylist = mylist[:k] + (mylist[k+1:] if k+1 < len(mylist) else [])
+			tags = tags[:k] + (tags[k+1:] if k+1 < len(tags) else [])
+			k=-1
+		k+=1
+
+	k=0
+	while k<len(tags):
+		tags[k] = mylist[k]+"^"+tags[k]
+		k+=1
+
+	reducedTriplets.append([' '.join(tags), tupple[1]])
+	if (pos != "" and len(mylist) > 0):
+		reducedTriplets.append([' '.join(mylist), 'belongs-to', pos.strip("'s").strip()])
+	if (jj != "" and len(mylist) > 0):
+		for x in jj.strip().split():
+			reducedTriplets.append([x, 'quality', ' '.join(mylist)])
+	if (cd != "" and len(mylist) > 0):
+		reducedTriplets.append([cd, 'number', ' '.join(mylist)])
+	return reducedTriplets
+
 def getTriplets(ex, show):
 	# ex = "RX also gets a brake-based torque vectoring system the subtly applies the brakes on the inner wheels for better handling and stability through turns. F Sport models get an updated Active Variable Suspension system that's said to be more responsive than before"
+	# ex = "The Akash eagerly wanted Mehar Sharma's blue coloured jacket, green umbrella of John Sowa, and Ritwik Mishra's big black red jeans"
+	# ex = "John had good dancing skills"
 	ex = ex.strip('.').strip('!').replace('‘','\'').replace('’','\'').replace('“','"').replace('”','"')
 	sentence = Sentence(ex)
+	triplets = []
 
 	tagger.predict(sentence)
 	strchunked = sentence.to_tagged_string()
@@ -91,7 +145,7 @@ def getTriplets(ex, show):
 
 	if(show):
 		print("\n\n")
-		print("CHUNKS from spacy")
+		print("CHUNKS from Flair")
 		for x in sentence:
 			print(x)
 
@@ -134,6 +188,19 @@ def getTriplets(ex, show):
 
 
 	sentence = sentence2
+
+	k=0
+	while k<len(sentence):
+		temptriplets = extractor(sentence[k])
+		sentence[k] = temptriplets[0]
+		triplets = triplets + temptriplets[1:]
+		k+=1
+
+	if(show):
+		print("\n\n")
+		print("CHUNKS with removed JJ-POS-CD")
+		for x in sentence:
+			print(x)
 
 	k = 0
 	while k < len(sentence):
@@ -210,7 +277,7 @@ def getTriplets(ex, show):
 
 	k = 0
 	nouns = []
-	triplets = []
+	
 	while k < len(sentence):
 		if (sentence[k][1] == "NP"):
 			nouns.append(sentence[k][0])
@@ -252,6 +319,8 @@ def getTriplets(ex, show):
 			# print("HERE"*10)
 			if (k+1 < len(sentence) and sentence[k+1][1] == "NP" and len(nouns) > 1):
 				n1 = nouns[-1]
+				if(sentence[k][0] == "of"):
+					n1 = sentence[k-1][0]
 				r = sentence[k][0]
 				n2 = sentence[k+1][0]
 				# print(nouns, k+1)
@@ -329,7 +398,7 @@ def clearBrackets(article): # to clear the text written inside brackets
 
 
 output = [['industry', 'index', 's1', 'r', 's2']]
-show = False
+show = True
 tvar = time.time()
 tlist = []
 #change path

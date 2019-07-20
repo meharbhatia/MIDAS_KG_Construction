@@ -16,3 +16,4 @@ Regarding submissions:
 
 - ```trial_submission.csv``` includes the triples when redundant triples have been removed from new_7.csv. Triples which do not have (NN, NNS, NNP, CD) in any of the node. Gave a score - 11.78 .
 
+- ``` wiki_file_trial.csv``` includes the triples from ```trial_submission.csv``` after passing through domain based test via Wikipedia2vec. Gave a score - 11.77. 

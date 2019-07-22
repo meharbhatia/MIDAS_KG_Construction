@@ -2,6 +2,8 @@
 
 Regarding submissions:
 
+- ```submission_11_52.csv``` is the best file for the best triplets generated (22nd July) giving score of 11.52. The order of triplets kept in thic case is s2, r, s1. This follows the rule based mining technique ran on the coreference dataset. 
+
 - ```new_6.csv``` is created by using spacyNER+rulebased , dataset input was cleaned dataset, removed isolated nodes (even with isolated nodes number of tupples were more or less same). Also when the error came, I replaced the new line character (```\n```) with ```<space>```.
 
 - ```new_7.csv``` has same parameter as that of ```new_6``` just the difference is, it has been run on ```g050_Coref_Dataset.csv```

@@ -1,8 +1,6 @@
 ## Updates are here ##
 
-Regarding submissions:
-
-- ```submission_11_52.csv``` is the best file for the best triplets generated (22nd July) giving score of 11.52. The order of triplets kept in thic case is s2, r, s1. This follows the rule based mining technique ran on the coreference (g050) dataset. 
+Regarding submissions: (sorted alphabetically)
 
 - ```new_6.csv``` is created by using spacyNER+rulebased , dataset input was cleaned dataset, removed isolated nodes (even with isolated nodes number of tupples were more or less same). Also when the error came, I replaced the new line character (```\n```) with ```<space>```.
 
@@ -19,6 +17,8 @@ Regarding submissions:
 - ```new_13_withoutJJ_withPosCdExtractor.csv``` is same as new12, the difference is JJ are not extracted instead they are kept intact. Only POS and CD are extracted. Isolated triplets are removed. Also the triplets which has empty nodes or nodes with only one alphabet are removed. Dataset used is g050. Score 12.21.
 
 - ```new_14_removedJJ_withPosCdExtractor.csv``` score = 12.24 | it is same as new_13 the difference is JJ are completely removed. Dataset was g050.
+
+- ```submission_11_52.csv``` is the best file for the best triplets generated (22nd July) giving score of 11.52. The order of triplets kept in thic case is s2, r, s1. This follows the rule based mining technique ran on the coreference (g050) dataset. 
 
 - ```trial_submission_coref.csv``` includes the triples when redundant triples have been removed from coref_triplets.csv. Triples which do not have (NN, NNS, NNP, CD) in any of the node. Gave a score - 11.82.
 

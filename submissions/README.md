@@ -18,6 +18,8 @@ Regarding submissions: (sorted alphabetically)
 
 - ```new_14_removedJJ_withPosCdExtractor.csv``` score = 12.24 | it is same as new_13 the difference is JJ are completely removed. Dataset was g050.
 
+- ```new_14_removedJJ_withPosCdExtractor_drop_duplicates.csv``` score = 12.15 | removed duplicates from above file.
+
 - ```submission_11_52.csv``` is the best file for the best triplets generated (22nd July) giving score of 11.52. The order of triplets kept in thic case is s2, r, s1. This follows the rule based mining technique ran on the coreference (g050) dataset. 
 
 - ```trial_submission_coref.csv``` includes the triples when redundant triples have been removed from coref_triplets.csv. Triples which do not have (NN, NNS, NNP, CD) in any of the node. Gave a score - 11.82.

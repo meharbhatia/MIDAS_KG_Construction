@@ -24,7 +24,7 @@ ex = 'BYD quickly debuted it\'s E-SEED GT concept car and Song Pro SUV alongside
 # ex = "The Akash eagerly wanted Mehar Sharma's blue coloured jacket, green umbrella of John Sowa and Ritwik Mishra's red jeans"
 # ex = "John went to the market by car, and Mary went to the school"
 
-tagger = SequenceTagger.load('chunk')
+# tagger = SequenceTagger.load('chunk')
 
 
 def clearBrackets(article): # to clear the text written inside brackets 
@@ -57,15 +57,19 @@ with open('../../datasets/g050_Coref_Dataset.csv', 'r') as csvFile:
 		article = row[1]
 
 		#YOU CAN PUT AN ARTICLE HERE. It'll replace the article you fetched from dataset
-		article = "BYD debuted its E-SEED GT concept car and Song Pro SUV alongside its all-new e-series models at the Shanghai International Automobile Industry Exhibition. The company also showcased its latest Dynasty series of vehicles, which were recently unveiled at the company’s spring product launch in Beijing. A total of 23 new car models were exhibited at the event, held at Shanghai’s National Convention and Exhibition Center, fully demonstrating the BYD New Architecture (BNA) design, the 3rd generation of Dual Mode technology, plus the e-platform framework."
+		# article = "BYD debuted its E-SEED GT concept car and Song Pro SUV alongside its all-new e-series models at the Shanghai International Automobile Industry Exhibition. The company also showcased its latest Dynasty series of vehicles, which were recently unveiled at the company’s spring product launch in Beijing. A total of 23 new car models were exhibited at the event, held at Shanghai’s National Convention and Exhibition Center, fully demonstrating the BYD New Architecture (BNA) design, the 3rd generation of Dual Mode technology, plus the e-platform framework."
 		article = clearBrackets(article)
 		triplets = []
-		for x in sent_tokenize(article):
-			ml = getTriplets(x, show, tagger) #getting triplets for each sentence
+		sent = sent_tokenize(article)
+		s = 0
+		while s <len(sent):
+			# ml = getTriplets(sent[s], tagger)
+			ml = getTriplets(row[2], int(row[0]), s, sent[s], show) #getting triplets for each sentence
 			triplets+=ml
 			# print("here2")
 			if(show):
 				input("\n\t\t\tPress ENTER to see next sentence...") #to pause execution
+			s+=1
 		if(show):
 			input("\n\t\tPress ENTER to see next ARTICLE...")
 
@@ -88,8 +92,8 @@ with open('../../datasets/g050_Coref_Dataset.csv', 'r') as csvFile:
 		trem = round(mean(tlist)*300 - mean(tlist)*k, 2)
 		print("article "+str(k)+" / "+str(tlen)+"\t\ttime taken: "+str(ttaken)+" sec | Mean time: "+str(round(mean(tlist),2))+" | Time remaining: "+str(trem)+" sec or "+str(round(trem/60,2))+" mins")
 		tvar = time.time()
-		# if k>2: #just to see output from top 2 articles
-		# 	break
+		if k==1: #just to see output from top 2 articles
+			break
 
 if(show):
 	exit()

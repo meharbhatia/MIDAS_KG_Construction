@@ -3,8 +3,6 @@ from spacy import displacy
 import en_core_web_sm
 
 
-ex = "Akash Pratap Singh's lawyer appealed to International Court of Trade and Commerce, and in Reserve Bank of India in September and January"
-
 def getNERs(ex, nlp):
 	
 	doc = nlp(ex)
@@ -34,7 +32,13 @@ def getNERs(ex, nlp):
 
 	return newml
 
+
 if __name__ == "__main__":
+
+	ex = "Akash Pratap Singh's lawyer appealed to International Court of Trade and Commerce, and in Reserve Bank of India in September and January"
+	ex = 'BYD quickly debuted it\'s E-SEED GT concept car and Song Pro SUV alongside it\'s all-new e-series models at the Shanghai International Automobile Industry Exhibition'
+	ex ="BYD debuted its E-SEED GT concept car and Song Pro SUV alongside its all-new e-series models at the Shanghai International Automobile Industry Exhibition. The company also showcased its latest Dynasty series of vehicles, which were recently unveiled at the company’s spring product launch in Beijing. A total of 23 new car models were exhibited at the event, held at Shanghai’s National Convention and Exhibition Center, fully demonstrating the BYD New Architecture (BNA) design, the 3rd generation of Dual Mode technology, plus the e-platform framework."
+	
 	nlp = en_core_web_sm.load()
 	print(ex)
 	for x in getNERs(ex, nlp):

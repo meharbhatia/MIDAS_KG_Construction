@@ -38,6 +38,8 @@ if __name__ == "__main__":
 	ex = "Akash Pratap Singh's lawyer appealed to International Court of Trade and Commerce, and in Reserve Bank of India in September and January"
 	ex = 'BYD quickly debuted it\'s E-SEED GT concept car and Song Pro SUV alongside it\'s all-new e-series models at the Shanghai International Automobile Industry Exhibition'
 	ex ="BYD debuted its E-SEED GT concept car and Song Pro SUV alongside its all-new e-series models at the Shanghai International Automobile Industry Exhibition. The company also showcased its latest Dynasty series of vehicles, which were recently unveiled at the company’s spring product launch in Beijing. A total of 23 new car models were exhibited at the event, held at Shanghai’s National Convention and Exhibition Center, fully demonstrating the BYD New Architecture (BNA) design, the 3rd generation of Dual Mode technology, plus the e-platform framework."
+	ex = "The Akash eagerly wanted Mehar Sharma's blue coloured jacket, green umbrella of John Sowa, and Ritwik Mishra's big black red jeans"
+	ex = "Akash wants umbrella of Mehar"
 	
 	nlp = en_core_web_sm.load()
 	print(ex)

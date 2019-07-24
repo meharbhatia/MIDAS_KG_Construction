@@ -99,7 +99,7 @@ if(show):
 	exit()
 
 ## to write into a file
-file = open('new_13_withoutJJ_withPosCdExtractor.csv','w')
+file = open('../../submissions/new_13_withoutJJ_withPosCdExtractor.csv','w')
 for x in output:
 	k=0
 	while k<len(x):

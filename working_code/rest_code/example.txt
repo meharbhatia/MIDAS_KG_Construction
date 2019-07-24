@@ -1,0 +1,8 @@
+Sentence is
+Akash wants umbrella of Mehar
+
+Triplets will be
+
+'Akash', 'wants', 'umbrella'
+'umbrella', 'of', 'Mehar'
+

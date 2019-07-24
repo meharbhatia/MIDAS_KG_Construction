@@ -327,7 +327,7 @@ def getTriplets(iname, aindex, sindex, ex, show):
 			# print("here")
 			k+=1
 			r = sentence[k][0]
-			if ( k+1 < len(sentence) and sentence[k+1][1] == "PP"):
+			if ( k+1 < len(sentence)-1 and sentence[k+1][1] == "PP"):
 				r = r + " " + sentence[k][0]
 				k+=1
 			n2 = sentence[k+1][0]

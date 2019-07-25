@@ -228,6 +228,10 @@ with open(r'C:\Users\mehar\Desktop\MIDAS\Internship\data\icdm_contest_data.csv',
 				entity_list.append(x)
 		# print(entity_list)
 		# print(len(entity_list))
+		
+		for entity in entity_list:
+			if (entity == ''):
+				entity_list.remove(entity)
 
 		
 		import nltk

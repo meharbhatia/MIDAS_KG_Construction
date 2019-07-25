@@ -92,8 +92,8 @@ with open('../../datasets/g050_Coref_Dataset.csv', 'r') as csvFile:
 		trem = round(mean(tlist)*300 - mean(tlist)*k, 2)
 		print("article "+str(k)+" / "+str(tlen)+"\t\ttime taken: "+str(ttaken)+" sec | Mean time: "+str(round(mean(tlist),2))+" | Time remaining: "+str(trem)+" sec or "+str(round(trem/60,2))+" mins")
 		tvar = time.time()
-		if k==1: #just to see output from top 2 articles
-			break
+		# if k==1: #just to see output from top 2 articles
+		# 	break
 
 if(show):
 	exit()

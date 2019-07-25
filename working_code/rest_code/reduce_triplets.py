@@ -1,28 +1,197 @@
 from nltk.corpus import stopwords 
-from nltk.tokenize import word_tokenize 
+from nltk.tokenize import word_tokenize
+from nltk import sent_tokenize 
 from nltk.util import ngrams
 from collections import Counter
+from spacyNER import getNERs
+from flairChunking import getPhrasesfromfile
+from nltk.stem import WordNetLemmatizer
+from statistics import mean 
+import csv
+import time
+import en_core_web_sm
 
-example_sent = "Ford says shifter cables can snap off and render the gear selector broken or useless on 2013–2016 Ford Fusion sedans. The automaker's latest recall expands a July 2018 recall of about a half-million cars. The 2019 Ranger also has a similar transmission problem under a separate new recall. Ford is recalling 259,182 additional Fusion sedans in the United States for faulty shifter cables that can cause rollaways, the automaker said Wednesday. In July, Ford recalled more than a half-million Fusion and Escape models for these shifter cables, which can break off the transmission due to a bad bushing at the connection point. A supplier had added lubricant to these bushings, which ultimately led them to fail on 2013–2016 Fusion and 2013–2014 Escape models, according to a recall filing with the National Highway Traffic Safety Administration (NHTSA). Several dangerous things can happen, such as the gear selector indicating the wrong gear or a driver switching off the vehicle in park and exiting with the key when the transmission is actually in neutral."
+def removeNgrams(ngrams):
+	k=0 
+	while k < len(ngrams):
+		if(len(ngrams[k][0][0]) == 1 or ngrams[k][1] < 2):
+			ngrams = ngrams[:k] + (ngrams[k+1:] if k+1 < len(ngrams) else [])
+			k-=1
+		k+=1
+	return ngrams
 
-stop_words = set(stopwords.words('english')) 
 
-word_tokens = word_tokenize(example_sent) 
+def getNgrams(ex):
+	nngrams = []
+	stop_words = set(stopwords.words('english')) 
+	word_tokens = word_tokenize(ex) 
+	filtered_sentence = [w for w in word_tokens if not w in stop_words] 
+	uni = removeNgrams(Counter(ngrams(filtered_sentence,1)).most_common(10))
+	bi = removeNgrams(Counter(ngrams(filtered_sentence,2)).most_common(10))
+	tri = removeNgrams(Counter(ngrams(filtered_sentence,3)).most_common(10))
+	nngrams.append(uni)
+	nngrams.append(bi)
+	nngrams.append(tri)
+	return nngrams
 
-filtered_sentence = [w for w in word_tokens if not w in stop_words] 
+def nounfilter(nphrases):
+	k = 0
+	while k < len(nphrases):
+		if(nphrases[k][1] != 'NP'):
+			nphrases = nphrases[:k] + (nphrases[k+1:] if k+1 < len(nphrases) else [])
+			k-=1
+		k+=1
+	return nphrases
 
-filtered_sentence = [] 
+def presentIn(gword, nlist):
+	f = False
+	k=0
+	while k < len(nlist):
+		if (gword in nlist[k][0]):
+			f = True
+			break
+		k+=1
+	return f
 
-for w in word_tokens: 
-	if w not in stop_words: 
-		filtered_sentence.append(w) 
+def traverseConnected(triplets):
+	k = 0
+	ignorelist = ["it", "us", "we", "I"]
+	while k < len(triplets):
+		if (triplets[k][5] == 'X'):
+			triplets[k][5] = 'Y'
+			k2 = 0
+			while k2 < len(triplets):
+				# if ( (triplets[k][2] == triplets[k2][2] or triplets[k][2] == triplets[k2][4] or triplets[k][4] == triplets[k2][4] or triplets[k][4] == triplets[k2][2]) and triplets[k2][5] == 'O'):
+				if ( (triplets[k][2] == triplets[k2][4] or triplets[k][4] == triplets[k2][2]) and triplets[k2][5] == 'O'):
+					triplets[k2][5] = 'X'				
+				k2+=1
+			k = -1
+		k+=1
+	return triplets
 
-print(word_tokens) 
-print("\n\n")
-print(filtered_sentence) 
-print("\n\n")
-print(Counter(ngrams(filtered_sentence,1)).most_common(10))
-print("\n\n")
-print(Counter(ngrams(filtered_sentence,2)).most_common(10))
-print("\n\n")
-print(Counter(ngrams(filtered_sentence,3)).most_common(10))
+def removeDuplicates(triplets):
+	k=0
+	while k < len(triplets) - 1:
+		if (triplets[k] in (triplets[:k] + triplets[k+1:]) or triplets[k][2] == triplets[k][4]):
+			triplets = triplets[:k] + triplets[k+1:]
+			k-=1
+		k+=1
+	return triplets
+
+def getXY(triplets):
+	k = c = 0
+	while k < len(triplets):
+		if (triplets[k][5] != 'O'):
+			c+=1
+		k+=1
+	return c
+
+
+if __name__ == "__main__":
+	file = open('../../datasets/g050_Coref_Dataset.csv', 'r')
+	reader = csv.reader(file)
+	nlp = en_core_web_sm.load()
+	show = False
+	next(reader)
+	ftriplets = [['industry', 'index', 's1', 'r', 's2','Y']]
+	tvar = time.time()
+	tlist = []
+	tlen = 300
+	count = 0
+	for row in reader:
+		article = row[1]
+		Ngrams = getNgrams(article)
+		ners = getNERs(article, nlp)
+		sent = sent_tokenize(article)
+		s = 0
+		nphrases = []
+		while s < len(sent):
+			nphrases += getPhrasesfromfile(row[2], int(row[0]), s)
+			s+=1
+		nphrases = nounfilter(nphrases)
+		if(show):
+			print("\n\n")
+			print(Ngrams)
+			print(Ngrams[0])
+			print(Ngrams[0][0])
+			print(Ngrams[0][0][0])
+			print(Ngrams[0][0][0][0])
+			print("\n\n")
+			print(ners)
+			print("\n\n")
+			print(nphrases)
+			print("\n\n")
+		tfile = open('../../submissions/submission_11_52.csv','r')
+		treader = csv.reader(tfile)
+		next(treader)
+		atriplets = []
+		for trow in treader:
+			if (row[2] == trow[0] and int(trow[1]) == int(row[0])):
+				tl = []
+				tl.append(trow[0])
+				tl.append(trow[1])
+				tl.append(trow[2])
+				tl.append(trow[3])
+				tl.append(trow[4])
+				tl.append('Z')
+				atriplets.append(tl)
+		tfile.close()
+		
+		atriplets = removeDuplicates(atriplets)
+		if(show):
+			for x in atriplets:
+				print(x)
+
+
+		# n = 0
+		# while n < len(Ngrams[0]):
+		# 	if ( presentIn(Ngrams[0][n][0][0], ners) or presentIn(Ngrams[0][n][0][0], nphrases)):
+		# 		k = 0
+		# 		while k < len(atriplets):
+		# 			if (atriplets[k][2] == Ngrams[0][n][0][0] or atriplets[k][4] == Ngrams[0][n][0][0]):
+		# 				atriplets[k][5] = 'X'
+		# 			k+=1
+
+		# 	n+=1
+
+
+		# if(show):
+		# 	print("\n\n")
+		# 	for x in atriplets:
+		# 			print(x)
+		
+		# atriplets = traverseConnected(atriplets)
+
+		# if(show):
+		# 	print("\n\n")
+		# 	for x in atriplets:
+		# 			print(x)
+
+		# if(show):
+		# 	print(getXY(atriplets))
+		# 	input('enter')
+
+		ftriplets+=atriplets
+
+		count+=1
+		ttaken = round(time.time() - tvar, 2)
+		tlist.append(ttaken)
+		trem = round(mean(tlist)*300 - mean(tlist)*count, 2)
+		print("article "+str(count)+" / "+str(tlen)+"\t\ttime taken: "+str(ttaken)+" sec | Mean time: "+str(round(mean(tlist),2))+" | Time remaining: "+str(trem)+" sec or "+str(round(trem/60,2))+" mins")
+		tvar = time.time()
+
+	file.close()
+
+	file = open('../../submissions/submissionREDUCED_11_52.csv','w')
+	for x in ftriplets:
+		k=0
+		while k<len(x)-1 and x[-1] != 'O':
+			file.write(x[k].replace(';','').replace(',','').replace('‘','\'').replace('’','\'').replace('“','\'').replace('”','\'').replace('"','').replace('\n',' '))
+			if(k+2 != len(x)):
+				file.write(',')
+			k+=1
+		if(x[-1] != 'O'):
+			file.write("\n")
+	file.close()
+
+

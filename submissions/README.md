@@ -22,7 +22,11 @@ Regarding submissions: (sorted alphabetically)
 
 - ```new_16_removedJJPosCd_withNNExtractor.csv``` like new_15, it removes JJ, Pos and CD all together. Dataset used g050. First one to be calculated using chunks stored in the file. Took 5 mins to generate as compared to previous 20 mins (on server). Score = 12.41
 
+- ```new_17_REDUCED_removedJJ_withPosCdExtractor.csv``` is build on new_14. 5k triplets. Reductions performed by ```reduced_triplets.py``` file. Score = 12.3
+
 - ```submission_11_52.csv``` is the best file for the best triplets generated (22nd July) giving score of 11.52. The order of triplets kept in thic case is s2, r, s1. This follows the rule based mining technique ran on the coreference (g050) dataset. 
+
+- ```submissionREDUCED_11_52.csv``` build on submission_11_52. Reductions performed by ```reduced_triplets.py``` file. Score = 12.01.
 
 - ```trial_submission_coref.csv``` includes the triples when redundant triples have been removed from coref_triplets.csv. Triples which do not have (NN, NNS, NNP, CD) in any of the node. Gave a score - 11.82.
 

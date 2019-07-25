@@ -18,7 +18,9 @@ Regarding submissions: (sorted alphabetically)
 
 - ```new_14_removedJJ_withPosCdExtractor.csv``` score = 12.24 | it is same as new_13 the difference is JJ are completely removed. Dataset was g050.
 
-- ```new_14_removedJJ_withPosCdExtractor_drop_duplicates.csv``` score = 12.15 | removed duplicates from above file.
+- ```new_15_removedJJ_withPosCdExtractor_drop_duplicates.csv``` score = 12.15 | removed duplicates from above file.
+
+- ```new_16_removedJJPosCd_withNNExtractor.csv``` like new_15, it removes JJ, Pos and CD all together. Dataset used g050. First one to be calculated using chunks stored in the file. Took 5 mins to generate as compared to previous 20 mins (on server). Score = 12.41
 
 - ```submission_11_52.csv``` is the best file for the best triplets generated (22nd July) giving score of 11.52. The order of triplets kept in thic case is s2, r, s1. This follows the rule based mining technique ran on the coreference (g050) dataset. 
 

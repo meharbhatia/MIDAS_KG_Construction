@@ -1,8 +1,69 @@
-Sentence is
-Akash wants umbrella of Mehar
+ritwik@lab14-OptiPlex-7460-AIO:~/git$ git clone https://github.com/biplab-iitb/practNLPTools.git
+ritwik@lab14-OptiPlex-7460-AIO:~/git/practNLPTools$ sudo python setup.py install
+ritwik@lab14-OptiPlex-7460-AIO:~/git/practNLPTools$ python2
 
-Triplets will be
+Python 2.7.15rc1 (default, Nov 12 2018, 14:31:15) 
+[GCC 7.3.0] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
 
-'Akash', 'wants', 'umbrella'
-'umbrella', 'of', 'Mehar'
+>>> from practnlptools.tools import Annotator
+>>> annotator=Annotator()
+
+>>> annotator.getAnnotations("He created the robot and broke it after making it.")['srl']
+[{'A1': 'the robot', 'A0': 'He', 'V': 'created'}, {'A1': 'it', 'A0': 'He', 'AM-TMP': 'after making it.', 'V': 'broke'}, {'A1': 'it.', 'A0': 'He', 'V': 'making'}]
+
+>>> annotator.getAnnotations("The Akash eagerly wanted Mehar Sharma's blue coloured jacket, green umbrella of John Sowa, and Ritwik Mishra's big black red jeans")['srl']
+[{'A1': "Mehar Sharma 's blue coloured jacket , green umbrella of John Sowa , and Ritwik Mishra 's big black red jeans", 'A0': 'The Akash', 'AM-MNR': 'eagerly', 'V': 'wanted'}]
+
+>>> annotator.getAnnotations("BYD quickly debuted it's E-SEED GT concept car and Song Pro SUV alongside it's all-new e-series models at the Shanghai International Automobile Industry Exhibition")['srl']
+[{'A1': "it 's E - SEED GT concept car and Song Pro SUV", 'A0': 'BYD', 'AM-MNR': 'quickly', 'V': 'debuted'}]
+
+>>> annotator.getAnnotations("Outside Oslo, where cars were larger and more upscale than in other parts of Europe, and Tesla vehicles (S and X) are a more common sight than around Los Angeles or the Bay Area, the EQC fit right in.")['srl']
+[]
+
+>>> annotator.getAnnotations("Outside Oslo, where cars were larger and more upscale than in other parts of Europe, and Tesla vehicles are a more common sight than around Los Angeles or the Bay Area, the EQC fit right in.")['srl']
+[]
+
+>>> annotator.getAnnotations("At about 187 inches long, the EQC400 4Matic crossover splices into the American mid-sizers.")['srl']
+[]
+
+>>> annotator.getAnnotations("At about 187 inches long, the EQC400 4Matic crossover splices into the American mid-sizers")['srl']
+[]
+
+>>> annotator.getAnnotations("At about 187 inches long the EQC400 4Matic crossover splices into the American mid-sizers")['srl']
+[]
+
+>>> annotator.getAnnotations("Akash went to Mall")['srl']
+[{'A1': 'to Mall', 'A0': 'Akash', 'V': 'went'}]
+
+>>> annotator.getAnnotations("Celebrity chef Jamie Oliver's British restaurant chain has become insolvent, putting 1,300 jobs at risk")['srl']
+[{'A1': "Celebrity chef Jamie Oliver 's British restaurant chain", 'AM-ADV': 'putting 1,300 jobs at risk', 'A2': 'insolvent', 'V': 'become'}, {'A1': '1,300 jobs', 'A0': "Celebrity chef Jamie Oliver 's British restaurant chain", 'A2': 'at risk', 'V': 'putting'}]
+
+>>> annotator.getAnnotations("The firm said Tuesday that it had gone into administration, a form of bankruptcy protection, and appointed KPMG to oversee the process.")['srl']
+[{'A1': 'that it had gone into administration , a form of bankruptcy protection , and appointed KPMG to oversee the process', 'A0': 'The firm', 'AM-TMP': 'Tuesday', 'V': 'said'}, {'A1': 'it', 'A4': 'into administration , a form of bankruptcy protection', 'V': 'gone'}, {'A1': 'KPMG', 'A2': 'to oversee the process', 'V': 'appointed'}, {'A1': 'the process', 'A0': 'KPMG', 'V': 'oversee'}]
+
+>>> annotator.getAnnotations("An arson fire caused an estimated $50,000 damage at a house on Mt. Soledad that was being renovated, authorities said Friday")['srl']
+[{'A1': 'an estimated $ 50,000 damage at a house on Mt. Soledad that was being renovated', 'A0': 'An arson fire', 'V': 'caused'}, {'A1': 'a house on Mt. Soledad', 'R-A1': 'that', 'V': 'renovated'}, {'A1': 'An arson fire caused an estimated $ 50,000 damage at a house on Mt. Soledad that was being renovated', 'A0': 'authorities', 'AM-TMP': 'Friday', 'V': 'said'}]
+
+>>> annotator.getAnnotations("San Diego police were looking for the arsonist, described as a Latino man who was wearing a red hat, blue shirt and brown pants, and may have driven away in a small, black four-door car.")['srl']
+[{'A1': 'for the arsonist , described as a Latino man who was wearing a red hat , blue shirt and brown pants , and may have driven away in a small , black four-door car', 'A0': 'San Diego police', 'V': 'looking'}, {'A1': 'the arsonist', 'A2': 'as a Latino man who was wearing a red hat , blue shirt and brown pants', 'V': 'described'}, {'A1': 'a red hat , blue shirt and brown pants', 'R-A0': 'who', 'V': 'wearing'}, {'R-A1': 'who', 'AM-LOC': 'in a small , black four-door car', 'AM-MOD': 'may', 'A1': 'a Latino man', 'V': 'driven', 'AM-DIR': 'away'}]
+
+>>> annotator.getAnnotations("Right off the heels of her best-selling lip kits, model Ashley Graham just released the new Revlon Gel Envy Lingerie x Ashley Graham collection of nail polish inspired by natural-colored underthings.")['srl']
+[{'AM-ADV': 'Right off the heels of her best-selling lip kits', 'A0': 'model Ashley Graham', 'A1': 'the new Revlon Gel Envy Lingerie x Ashley Graham collection of nail polish inspired by natural - colored underthings', 'AM-TMP': 'just', 'V': 'released'}, {'A0': 'by natural - colored underthings', 'V': 'inspired'}]
+
+>>> annotator.getAnnotations("These aren’t your mom’s lingerie shades, though.")['srl']
+WARNING: skipping a char (�)
+WARNING: skipping a char (�)
+WARNING: skipping a char (�)
+WARNING: skipping a char (�)
+WARNING: skipping a char (�)
+WARNING: skipping a char (�)
+[{'A0': 'These t', 'V': 'aren'}]
+
+>>> annotator.getAnnotations("These aren't your mom's lingerie shades, though.")['srl']
+[{'A1': "your mom 's lingerie shades", 'A0': 'These', 'AM-DIS': 'though', 'V': "'t"}]
+
+>>> annotator.getAnnotations("These are sexy and shimmery and great for all skin tones.")['srl']
+[]
+>>> 
 

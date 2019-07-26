@@ -67,3 +67,152 @@ WARNING: skipping a char (�)
 []
 >>> 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ritwik@lab14-OptiPlex-7460-AIO:~/git/OpenIE-standalone$ java -Xmx10g -XX:+UseConcMarkSweepGC -jar openie-assembly.jar
+Loading feature templates.
+Loading models.
+Loading lexica.
+Loading configuration.
+Loading feature templates.
+Loading models.
+Loading feature templates.
+Loading models.
+Loading lexica.
+Loading feature templates.
+Loading models.
+Loading feature templates.
+Loading models.
+Loading lexica.
+Loading feature templates.
+Loading models.
+Loading lexica.
+Initializing Language Model
+* * * * * * * * * * * * *
+* OpenIE 5.0 is ready *
+* * * * * * * * * * * * *
+BYD quickly debuted its E-SEED GT concept car and Song Pro SUV alongside its all-new e-series models at the Shanghai International Automobile Industry Exhibition            
+BYD quickly debuted its E-SEED GT concept car and Song Pro SUV alongside its all-new e-series models at the Shanghai International Automobile Industry Exhibition
+0.38 (SUV; [is] quickly debuted Pro [of]; Song)
+0.86 (BYD; quickly debuted; Song Pro SUV; L:alongside its all - new e - series models at the Shanghai International Automobile Industry Exhibition)
+0.86 (BYD; quickly debuted; its E - SEED GT concept car alongside its all - new e - series models at the Shanghai International Automobile Industry Exhibition)
+
+A total of 23 new car models were exhibited at the event, held at Shanghai’s National Convention and Exhibition Center, fully demonstrating the BYD New Architecture (BNA) design, the 3rd generation of Dual Mode technology, plus the e-platform framework
+A total of 23 new car models were exhibited at the event, held at Shanghai’s National Convention and Exhibition Center, fully demonstrating the BYD New Architecture (BNA) design, the 3rd generation of Dual Mode technology, plus the e-platform framework
+0.38 (Exhibition Center; [is] National [from]; Shanghai)
+0.95 (A total of 23 new car models; held; L:at Shanghai 's National Exhibition Center)
+0.38 (Convention Center; [is] National [from]; Shanghai)
+0.95 (A total of 23 new car models; held; L:at Shanghai 's National Convention Center)
+0.97 (A total of 23 new car models; were exhibited; L:at the event; fully demonstrating the BYD New Architecture ( BNA ) design)
+
+The Akash eagerly wanted Mehar Sharma's blue coloured jacket, green umbrella of John Sowa, and Ritwik Mishra's big black red jeans
+The Akash eagerly wanted Mehar Sharma's blue coloured jacket, green umbrella of John Sowa, and Ritwik Mishra's big black red jeans
+0.94 (The Akash; eagerly wanted; Ritwik Mishra 's big black red jeans)
+0.94 (The Akash; eagerly wanted; Mehar Sharma 's blue coloured jacket)
+
+An arson fire caused an estimated $50,000 damage at a house on Mt. Soledad that was being renovated, authorities said Friday.
+An arson fire caused an estimated $50,000 damage at a house on Mt. Soledad that was being renovated, authorities said Friday.
+0.94 Context(An arson fire caused an estimated $ 50,000 damage at a house on Mt . Soledad said,List([0, 117))):(An arson fire; caused; an estimated $50,000 damage at a house on Mt. Soledad)
+0.97 (An arson fire caused an estimated $50,000 damage at a house on Mt. Soledad; said; T:Friday)
+0.78 (Mt. Soledad; was being renovated; )
+
+Right off the heels of her best-selling lip kits, model Ashley Graham just released the new Revlon Gel Envy Lingerie x Ashley Graham collection of nail polish inspired by natural-colored underthings.
+Right off the heels of her best-selling lip kits, model Ashley Graham just released the new Revlon Gel Envy Lingerie x Ashley Graham collection of nail polish inspired by natural-colored underthings.
+0.96 (model Ashley Graham; just released; the new Revlon Gel Envy Lingerie x Ashley Graham collection of nail polish; T:Right off the heels of her best-selling lip kits)
+
+These are sexy and shimmery and great for all skin tones. 
+These are sexy and shimmery and great for all skin tones. 
+0.89 (These; are great for; all skin tones)
+0.54 (These; are; great for all skin tones)
+0.30 (These; are; shimmery)
+0.30 (These; are; sexy)
+
+We’re not exactly sure what color it is but it looks like Bare It Girl, a pretty light shade that makes the perfect base for her sparkly nail art.
+We’re not exactly sure what color it is but it looks like Bare It Girl, a pretty light shade that makes the perfect base for her sparkly nail art.
+0.84 (a pretty light shade; makes; the perfect base for her sparkly nail art)
+0.50 (it; looks; like Bare It Girl)
+0.24 (it; is; )
+0.31 (We; 're not; exactly sure what color it is)
+
+Celebrity chef Jamie Oliver's British restaurant chain has become insolvent, putting 1,300 jobs at risk.
+Celebrity chef Jamie Oliver's British restaurant chain has become insolvent, putting 1,300 jobs at risk.
+0.95 (Celebrity chef Jamie Oliver's British restaurant chain; putting; 1,300 jobs; at risk)
+0.89 (Celebrity chef Jamie Oliver's British restaurant chain; has become; insolvent)
+
+The firm said Tuesday that it had gone into administration, a form of bankruptcy protection, and appointed KPMG to oversee the process.
+The firm said Tuesday that it had gone into administration, a form of bankruptcy protection, and appointed KPMG to oversee the process.
+0.88 Context(The firm appointed,List([0, 18))):(The firm; appointed KPMG to oversee; the process)
+0.90 (The firm; appointed; KPMG; to oversee the process)
+0.39 Context(The firm said,List([0, 13))):(it; had gone; into administration)
+0.63 (The firm; said; T:Tuesday; that it had gone into administration)
+
+The company operates 23 Jamie's Italian restaurants in the U.K.
+The company operates 23 Jamie's Italian restaurants in the U.K.
+1.00 (The company; operates; 23 jamie 's italian restaurants)
+0.92 (The company; operates; 23 Jamie's Italian restaurants in the U.K.)
+
+Ford says shifter cables can snap off and render the gear selector broken or useless on 2013–2016 Ford Fusion sedans.
+Ford says shifter cables can snap off and render the gear selector broken or useless on 2013–2016 Ford Fusion sedans.
+0.88 (Ford; says; render useless on 2013-2016 Ford Fusion sedans)
+0.92 (Ford; says; render the gear selector broken on 2013-2016 Ford Fusion sedans)
+0.69 Context(Ford says,List([0, 9))):(shifter cables; can snap off; )
+0.83 (Ford; says; shifter cables can snap off)
+
+The automaker's latest recall expands a July 2018 recall of about a half-million cars.
+The automaker's latest recall expands a July 2018 recall of about a half-million cars.
+
+The 2019 Ranger also has a similar transmission problem under a separate new recall.
+The 2019 Ranger also has a similar transmission problem under a separate new recall.
+0.99 (2019 ranger; has; a similar transmission problem)
+0.94 (The 2019 Ranger; has; a similar transmission problem)
+
+Norway has a lot of electric cars—so many that it can make anyone driving a new vehicle with an internal combustion engine look like a Luddite.
+Norway has a lot of electric cars—so many that it can make anyone driving a new vehicle with an internal combustion engine look like a Luddite.
+0.87 Context(it can make anyone driving a new vehicle with an internal combustion engine look,List([47, 127))):(anyone; driving; a new vehicle)
+0.95 Context(it can make,List([47, 58))):(anyone driving a new vehicle with an internal combustion engine; look; like a Luddite)
+0.55 (it; can make; anyone driving a new vehicle with an internal combustion engine look like a Luddite)
+0.94 (Norway; has; a lot of electric cars)
+
+Mercedes-Benz brought us there to experience the EQC—and possibly to normalize it in a sea of EVs that makes California look like a land of late adopters. 
+Mercedes-Benz brought us there to experience the EQC—and possibly to normalize it in a sea of EVs that makes California look like a land of late adopters. 
+0.90 Context(a sea of EVs makes,List([61, 84))):(California; look; like a land of late adopters)
+0.92 (a sea of EVs; makes; California look like a land of late adopters)
+0.82 Context(Mercedes - Benz brought possibly,List([0, 41))):(Mercedes - Benz; brought possibly to normalize; it; L:in a sea of EVs)
+0.82 (Mercedes - Benz; brought possibly; to normalize it in a sea of EVs)
+0.67 Context(Mercedes - Benz brought,List([0, 23))):(Mercedes - Benz; brought us to experience; )
+0.85 (Mercedes - Benz; brought; us; there; to experience)
+
+Outside Oslo, where cars were larger and more upscale than in other parts of Europe, and Tesla vehicles (S and X) are a more common sight than around Los Angeles or the Bay Area, the EQC fit right in.
+Outside Oslo, where cars were larger and more upscale than in other parts of Europe, and Tesla vehicles (S and X) are a more common sight than around Los Angeles or the Bay Area, the EQC fit right in.
+0.93 (Outside Tesla vehicles; are; a more common sight than around the Bay Area)
+0.93 (Outside Tesla vehicles; are; a more common sight than around Los Angeles)
+0.90 (cars; were; more upscale than in other parts of Europe; L:Oslo)
+0.90 (cars; were; larger than in other parts of Europe; L:Oslo)
+
+After a couple of rain-soaked days driving the EQC there last week, we can say that it will be a great addition in the U.S. when it arrives sometime in 2020. At about 187 inches long, the EQC400 4Matic crossover splices into the American mid-sizers.
+After a couple of rain-soaked days driving the EQC there last week, we can say that it will be a great addition in the U.S. when it arrives sometime in 2020. At about 187 inches long, the EQC400 4Matic crossover splices into the American mid-sizers.
+0.95 Context(it arrives sometime,List([129, 148))):(the EQC400 4Matic crossover; splices; into the American mid-sizers; L:At about 187 inches long)
+0.18 (it; arrives sometime; in 2020)
+0.40 Context(we can say,List([68, 78))):(it; will be; a great addition in the U.S.; T:when it arrives sometime in 2020. At about 187 inches long, the EQC400 4Matic crossover splices into the American mid-sizers)
+0.30 (we; can say; that it will be a great addition in the U.S.; T:After a couple of rain-soaked days driving the EQC there last week)
+0.94 (a couple of rain-soaked days; driving; the EQC; there; T:last week)
+
+^Critwik@lab14-OptiPlex-7460-AIO:~/git/OpenIE-standalone$ 
+
+
+
+

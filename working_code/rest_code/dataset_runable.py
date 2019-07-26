@@ -45,6 +45,7 @@ def clearBrackets(article): # to clear the text written inside brackets
 
 output = [['industry', 'index', 's1', 'r', 's2']]
 show = True
+nlp = en_core_web_sm.load()
 tvar = time.time()
 tlist = []
 #change path
@@ -64,7 +65,7 @@ with open('../../datasets/g050_Coref_Dataset.csv', 'r') as csvFile:
 		s = 0
 		while s <len(sent):
 			# ml = getTriplets(sent[s], tagger)
-			ml = getTriplets(row[2], int(row[0]), s, sent[s], show) #getting triplets for each sentence
+			ml = getTriplets(row[2], int(row[0]), s, sent[s], show, nlp) #getting triplets for each sentence
 			triplets+=ml
 			# print("here2")
 			if(show):

@@ -10,7 +10,7 @@ import csv
 import nltk
 import re
 from nltk import sent_tokenize
-nlp = en_core_web_sm.load()
+
 
 
 ex = 'The company also showcased it\'s latest Dynasty series of marvellous vehicles, which were recently unveiled at the company\'s spring product launch in Beijing'
@@ -22,12 +22,12 @@ ex = 'BYD quickly debuted it\'s E-SEED GT concept car and Song Pro SUV alongside
 # ex = "John Sowa from India exhibited amazing dancing skills and performed Salsa at the event"
 # ex = "\"What is your name?\", asked John"
 # ex = "That is the place where John died"
-# ex = "The Akash eagerly wanted Mehar Sharma's blue coloured jacket, green umbrella of John Sowa, and Ritwik Mishra's big black red jeans"
+ex = "The Akash eagerly wanted Mehar Sharma's blue coloured jacket, green umbrella of John Sowa, and Ritwik Mishra's big black red jeans"
 # ex = "John went to the market by car, and Mary went to the school"
 # ex = "John was walking near the ocean and bought sea-shells"
 
 
-def getTriplets(iname, aindex, sindex, ex, show):
+def getTriplets(iname, aindex, sindex, ex, show, nlp):
 	# ex = "RX also gets a brake-based torque vectoring system the subtly applies the brakes on the inner wheels for better handling and stability through turns. F Sport models get an updated Active Variable Suspension system that's said to be more responsive than before"
 	# ex = "The Akash eagerly wanted Mehar Sharma's blue coloured jacket, green umbrella of John Sowa, and Ritwik Mishra's big black red jeans"
 	# ex = "John had good dancing skills"
@@ -35,66 +35,70 @@ def getTriplets(iname, aindex, sindex, ex, show):
 	sentence = Sentence(ex)
 	triplets = []
 
-	# tagger.predict(sentence)
-	# strchunked = sentence.to_tagged_string()
-	# if(show):
-	# 	print("\n")
-	# 	print(sentence)
-	# 	print("\nChunked sentence")
-	# 	print(strchunked)
+	if(iname == '0'):
+		tagger = SequenceTagger.load('chunk')
+		tagger.predict(sentence)
+		strchunked = sentence.to_tagged_string()
+		if(show):
+			print("\n")
+			print(sentence)
+			print("\nChunked sentence")
+			print(strchunked)
 
-	nlp = en_core_web_sm.load()
+	
 	doc = nlp(ex)
 	# pos_tags = [(i, i.tag_) for i in doc]
 	pos_tags = nltk.pos_tag(nltk.word_tokenize(ex))
 	if(show):
+		print(ex)
 		print("\nPOS tags")
 		print(pos_tags)
 
 
-	# listchunked = strchunked.split()
-	# # print(len(listchunked))
-	# # print(len(pos_tags))
-	# ph = ""
-	# sentence = []
+	if(iname == '0'):
+		listchunked = strchunked.split()
+		# print(len(listchunked))
+		# print(len(pos_tags))
+		ph = ""
+		sentence = []
+		k = 0
+		while k+1 < len(listchunked):
+			if listchunked[k+1] == '<S-NP>' or listchunked[k+1] == '<S-VP>' or listchunked[k+1] == '<S-PP>':
+				ph = listchunked[k]
+				sentence.append([(ph), (listchunked[k+1][-3:-1])])
+				ph = ""
+				k+=2
+				# print("S")
+			elif listchunked[k+1] == '<B-NP>':
+				# ph = ph + listchunked[k]
+				while (k+1<len(listchunked) and listchunked[k+1] != '<E-NP>'):
+					if not (listchunked[k][0]== '<' and listchunked[k][-1] == '>'):
+						ph = ph.strip() + " " + listchunked[k]
+					k+=1
+				ph = ph.strip() + " " + listchunked[k]
+				sentence.append([ph, 'NP'])
+				ph = ""
+				k+=2
+				# print("BNP")
+			elif listchunked[k+1] == '<B-VP>':
+				while (k+1<len(listchunked) and listchunked[k+1] != '<E-VP>'):
+					if not (listchunked[k][0]== '<' and listchunked[k][-1] == '>'):
+						ph = ph.strip() + " " + listchunked[k]
+					k+=1
+				ph = ph.strip() + " " + listchunked[k]
+				sentence.append([ph, 'VP'])
+				ph = ""
+				k+=2
+				# print(BVP)
+			elif not ( listchunked[k+1][0] == '<' and listchunked[k+1][-1] == '>' ): #happens with 'CC'
+				sentence.append([ listchunked[k] , 'CC'])
+				k+=1
+			else:
+				k+=2
+				# print("here")
 
-	# k = 0
-	# while k+1 < len(listchunked):
-	# 	if listchunked[k+1] == '<S-NP>' or listchunked[k+1] == '<S-VP>' or listchunked[k+1] == '<S-PP>':
-	# 		ph = listchunked[k]
-	# 		sentence.append([(ph), (listchunked[k+1][-3:-1])])
-	# 		ph = ""
-	# 		k+=2
-	# 		# print("S")
-	# 	elif listchunked[k+1] == '<B-NP>':
-	# 		# ph = ph + listchunked[k]
-	# 		while (k+1<len(listchunked) and listchunked[k+1] != '<E-NP>'):
-	# 			if not (listchunked[k][0]== '<' and listchunked[k][-1] == '>'):
-	# 				ph = ph.strip() + " " + listchunked[k]
-	# 			k+=1
-	# 		ph = ph.strip() + " " + listchunked[k]
-	# 		sentence.append([ph, 'NP'])
-	# 		ph = ""
-	# 		k+=2
-	# 		# print("BNP")
-	# 	elif listchunked[k+1] == '<B-VP>':
-	# 		while (k+1<len(listchunked) and listchunked[k+1] != '<E-VP>'):
-	# 			if not (listchunked[k][0]== '<' and listchunked[k][-1] == '>'):
-	# 				ph = ph.strip() + " " + listchunked[k]
-	# 			k+=1
-	# 		ph = ph.strip() + " " + listchunked[k]
-	# 		sentence.append([ph, 'VP'])
-	# 		ph = ""
-	# 		k+=2
-	# 		# print(BVP)
-	# 	elif not ( listchunked[k+1][0] == '<' and listchunked[k+1][-1] == '>' ): #happens with 'CC'
-	# 		sentence.append([ listchunked[k] , 'CC'])
-	# 		k+=1
-	# 	else:
-	# 		k+=2
-	# 		# print("here")
-
-	sentence = getPhrasesfromfile(iname, aindex, sindex)
+	else:
+		sentence = getPhrasesfromfile(iname, aindex, sindex)
 
 	if(show):
 		print("\n\n")
@@ -362,5 +366,6 @@ def getTriplets(iname, aindex, sindex, ex, show):
 	return triplets
 
 if __name__ == "__main__":
-	tagger = SequenceTagger.load('chunk')
-	getTriplets(ex, True, tagger)
+	# tagger = SequenceTagger.load('chunk')
+	nlp = en_core_web_sm.load()
+	getTriplets('0',0,0,ex, True, nlp)

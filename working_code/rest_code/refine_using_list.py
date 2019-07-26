@@ -55,10 +55,12 @@ with open(r'C:\Users\mehar\Desktop\MIDAS\Internship\data\icdm_contest_data.csv',
 	data = csv.reader(mainfile)
 	next(data)
 	for row in data:
+		# RITWIK COMMENT: you can directly fetch the ready made flair chunks from the appropriate file. No need to make chunks again and again. 
 		ex = row[1]
 		ex = clearBrackets(ex)
 		industry = row[2]
 		index = row[0]
+		# RITWIK COMMENT: loading this for every article slows down the process. Put it outside the loop.
 		tagger = SequenceTagger.load('chunk')
 
 		# sentence = Sentence('BYD quickly debuted it\'s E-SEED GT concept car and Song Pro SUV alongside it\'s all-new e-series models at the Shanghai International Automobile Industry Exhibition .')
@@ -72,6 +74,7 @@ with open(r'C:\Users\mehar\Desktop\MIDAS\Internship\data\icdm_contest_data.csv',
 		# print("\nChunked sentence")
 		# print(strchunked)
 
+		# RITWIK COMMENT: loading this for every article slows down the process. Put it outside the loop.
 		nlp = en_core_web_sm.load()
 		doc = nlp(ex)
 		# pos_tags = [(i, i.tag_) for i in doc]
@@ -127,7 +130,7 @@ with open(r'C:\Users\mehar\Desktop\MIDAS\Internship\data\icdm_contest_data.csv',
 					# print("here")
 
 		entity_list = []
-		print("CHUNKS from spacy")
+		print("CHUNKS from Flair")
 		for x in sentence:
 			# print(x)
 			if (x[1] == 'NP'):
@@ -136,6 +139,7 @@ with open(r'C:\Users\mehar\Desktop\MIDAS\Internship\data\icdm_contest_data.csv',
 
 		#Uses Function 
 		print("Spacy NER")
+		# RITWIK COMMENT: why loading it again?
 		nlp = en_core_web_sm.load()
 		# print(ex)
 		for x in getNERs(ex, nlp):

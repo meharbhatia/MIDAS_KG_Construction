@@ -53,7 +53,7 @@ def getPhrases(ex, tagger):
 
 def getPhrasesfromfile(iname, aindex, sindex):
 
-	file = open('../../datasets/g050_phrases.csv','r')
+	file = open('../../datasets/CLEAN_phrases.csv','r')
 	reader = csv.reader(file)
 	next(reader)
 	tl = []

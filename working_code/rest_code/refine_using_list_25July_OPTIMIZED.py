@@ -58,7 +58,7 @@ nlp = en_core_web_sm.load()
 tvar = time.time()
 tlist = []
 tlen = 300
-count = 0
+tcount = 0
 with open('/home/ritwik/git/MIDAS_KG_Construction/datasets/CLEANED_icdm_contest_data.csv','rt', encoding="utf8") as mainfile:
 	
 	data = csv.reader(mainfile)
@@ -470,11 +470,11 @@ with open('/home/ritwik/git/MIDAS_KG_Construction/datasets/CLEANED_icdm_contest_
 			print(rowlist)
 		print("Final Number", i)
 		csv_final_list.append(csv_list)
-		count+=1 
+		tcount+=1 
 		ttaken = round(time.time() - tvar, 2)
 		tlist.append(ttaken)
-		trem = round(mean(tlist)*300 - mean(tlist)*count, 2)
-		print("article "+str(count)+" / "+str(tlen)+"\t\ttime taken: "+str(ttaken)+" sec | Mean time: "+str(round(mean(tlist),2))+" | Time remaining: "+str(trem)+" sec or "+str(round(trem/60,2))+" mins")
+		trem = round(mean(tlist)*300 - mean(tlist)*tcount, 2)
+		print("article "+str(tcount)+" / "+str(tlen)+"\t\ttime taken: "+str(ttaken)+" sec | Mean time: "+str(round(mean(tlist),2))+" | Time remaining: "+str(trem)+" sec or "+str(round(trem/60,2))+" mins")
 		tvar = time.time()
 
 input('here')

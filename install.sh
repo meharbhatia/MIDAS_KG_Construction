@@ -10,5 +10,6 @@ sudo pip3 install neuralcoref
 sudo pip3 install -U spacy==2.1.0
 sudo python3 -m spacy download en
 sudo pip3 install sumy
+sudo pip3 install fuzzywuzzy
 
 sudo pip3 install flair

@@ -2,6 +2,16 @@ import spacy
 from spacy import displacy
 import en_core_web_sm
 
+	# https://nlpforhackers.io/named-entity-extraction/
+    # geo = Geographical Entity
+    # org = Organization
+    # per = Person
+    # gpe = Geopolitical Entity
+    # tim = Time indicator
+    # art = Artifact
+    # eve = Event
+    # nat = Natural Phenomenon
+
 
 def getNERs(ex, nlp):
 	

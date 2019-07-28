@@ -2,6 +2,7 @@
 from flair.models import SequenceTagger
 from flair.data import Sentence
 from triplets_using_flair import getTriplets
+from reduce_triplets import *
 import spacy
 import en_core_web_sm
 import csv
@@ -62,10 +63,11 @@ with open('../../datasets/g050_Coref_Dataset.csv', 'r') as csvFile:
 		article = clearBrackets(article)
 		triplets = []
 		sent = sent_tokenize(article)
+		Ngrams = getNgrams(article)
 		s = 0
 		while s <len(sent):
 			# ml = getTriplets(sent[s], tagger)
-			ml = getTriplets(row[2], int(row[0]), s, sent[s], show, nlp) #getting triplets for each sentence
+			ml = getTriplets(row[2], int(row[0]), s, sent[s], Ngrams, show, nlp) #getting triplets for each sentence
 			triplets+=ml
 			# print("here2")
 			if(show):

@@ -14,7 +14,7 @@ import en_core_web_sm
 def removeNgrams(ngrams):
 	k=0 
 	while k < len(ngrams):
-		if(len(ngrams[k][0][0]) == 1 or ngrams[k][1] < 2):
+		if(len(ngrams[k][0][0]) == 1 or ngrams[k][1] < 2 or ngrams[k][0][0] == "'s"):
 			ngrams = ngrams[:k] + (ngrams[k+1:] if k+1 < len(ngrams) else [])
 			k-=1
 		k+=1

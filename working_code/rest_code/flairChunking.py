@@ -6,6 +6,16 @@ import en_core_web_sm
 import csv
 from nltk import sent_tokenize
 
+		# http://www.surdeanu.info/mihai/teaching/ista555-fall13/readings/PennTreebankConstituents.html
+		# SBAR - Clause introduced by a subordinating conjunction.
+		# ADJP - Adjective Phrase.
+		# ADVP - Adverb Phrase.
+		# NP - Noun Phrase. 
+		# PP - Prepositional Phrase.
+		# QP - Quantifier Phrase (i.e. complex measure/amount phrase); used within NP.
+		# VP - Vereb Phrase. 
+
+
 def getPhrases(ex, tagger):
 	sentence = Sentence(ex)
 	tagger.predict(sentence)
@@ -21,6 +31,11 @@ def getPhrases(ex, tagger):
 			ph = ""
 			k+=2
 			# print("S")
+		elif listchunked[k+1] == '<S-ADJP>':
+			ph = listchunked[k]
+			sentence.append([(ph), ('NP')])
+			ph = ""
+			k+=2
 		elif listchunked[k+1] == '<B-NP>':
 			# ph = ph + listchunked[k]
 			while (k+1<len(listchunked) and listchunked[k+1] != '<E-NP>'):
@@ -42,12 +57,76 @@ def getPhrases(ex, tagger):
 			ph = ""
 			k+=2
 			# print(BVP)
+		elif listchunked[k+1] == '<B-ADJP>':
+			while (k+1<len(listchunked) and listchunked[k+1] != '<E-ADJP>'):
+				if not (listchunked[k][0]== '<' and listchunked[k][-1] == '>'):
+					ph = ph.strip() + " " + listchunked[k]
+				k+=1
+			ph = ph.strip() + " " + listchunked[k]
+			sentence.append([ph, 'NP'])
+			ph = ""
+			k+=2
 		elif not ( listchunked[k+1][0] == '<' and listchunked[k+1][-1] == '>' ): #happens with 'CC'
 			sentence.append([ listchunked[k] , 'CC'])
 			k+=1
 		else:
 			k+=2
 			# print("here")
+
+	# print("temp chunks")
+	# for x in sentence:
+	# 	print(x)
+	k=0
+	while k <len(sentence):
+		while (k<len(sentence) and sentence[k][0].find(',')!=-1):
+			index = sentence[k][0].find(',')
+			if (sentence[k][0][index-1] >= '0' and sentence[k][0][index-1] <= '9' and index+1 < len(sentence[k][0]) and sentence[k][0][index+1] >= '0' and sentence[k][0][index+1] <= '9'):
+				break
+			ph = list(sentence[k])
+
+			sentence[k][0] = sentence[k][0][:index]
+
+			if (k+1 >= len(sentence)):
+				sentence = sentence + [[",","CC"]] + ([[ph[0][index+1:].strip() , ph[1]]] if ph[0][index+1:].strip()!="" else [])
+			else:
+				sentence = sentence[:k+1] + [[",","CC"]] + ([[ph[0][index+1:].strip() , ph[1]]] if ph[0][index+1:].strip()!="" else []) + sentence[k+1:]
+			
+			k+=2
+		k+=1
+
+
+	k=0
+	while k+1 < len(sentence): #this loop merges consecutive PP like "than/PP in/PP"
+		if (sentence[k][1] == "PP" and sentence[k+1][1] == "PP"):
+			sentence[k+1][0] = sentence[k][0]+" "+sentence[k+1][0]
+			sentence = sentence[:k] + sentence[k+1:]
+			k-=1
+		elif (sentence[k][1] == "NP" and sentence[k+1][1] == "NP"):
+			sentence[k+1][0] = sentence[k][0]+" "+sentence[k+1][0]
+			sentence = sentence[:k] + sentence[k+1:]
+			k-=1
+		k+=1
+
+	k=0 
+	while k<len(sentence):
+		if(sentence[k][1]=="NP"):
+			if (sentence[k][0].find("and ") == 0):
+				sentence[k][0] = sentence[k][0].replace("and ","")
+			if ("it's " in sentence[k][0]):
+				sentence[k][0] = sentence[k][0].replace("it's ","")
+		k+=1
+
+	if sentence[-1][1] == "CC":
+		sentence = sentence[:-1]
+	# k=0
+	# while k<len(sentence): #this loop was designed to change possesion tags to "of" PP
+	# 	if("'s " in sentence[k][0] and sentence[k][1] == "NP"):
+	# 		index = sentence[k][0].find("'s ")
+	# 		ph = sentence[k][0]
+	# 		sentence[k][0] = sentence[k][0][index+2:].strip()
+	# 		ph = ph[:index].strip()
+	# 		sentence = sentence[:k+1] +[["of","PP"],[ph,"NP"]] + sentence[k+1:]
+	# 	k+=1
 
 	return sentence
 

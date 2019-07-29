@@ -39,15 +39,18 @@ ex = "Oliver began his restaurant empire in 2013–2014 when he opened Fifteen i
 
 def clearBrackets(article): # to clear the text written inside brackets 
 	k=0
-	p1 = p2 = 0
-	while k<len(article):
+	p1 = 0
+	p2 = 0
+	while k<len(article) and '(' in article:
 		if (article[k]=='('):
 			p1 = k
 		if (article[k]==')'):
 			p2 = k
 		if(p1!=0 and p2!=0):
 			article = article[:p1]+article[p2+1:].strip()
-			p1 = p2 = 0
+			p1 = 0
+			p2 = 0
+			k=0
 		k+=1
 	article = article.replace('(','').replace('(','')
 	return article

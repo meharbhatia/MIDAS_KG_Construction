@@ -91,7 +91,7 @@ if __name__ == "__main__":
 	file = open('../../datasets/g050_Coref_Dataset.csv', 'r')
 	reader = csv.reader(file)
 	nlp = en_core_web_sm.load()
-	show = False
+	show = True
 	next(reader)
 	ftriplets = [['industry', 'index', 's1', 'r', 's2','Y']]
 	tvar = time.time()
@@ -133,7 +133,7 @@ if __name__ == "__main__":
 				tl.append(trow[2])
 				tl.append(trow[3])
 				tl.append(trow[4])
-				tl.append('Z')
+				tl.append('O')
 				atriplets.append(tl)
 		tfile.close()
 		
@@ -144,33 +144,33 @@ if __name__ == "__main__":
 			# input('Wait... Enter...')
 
 
-		# n = 0
-		# while n < len(Ngrams[0]):
-		# 	if ( presentIn(Ngrams[0][n][0][0], ners) or presentIn(Ngrams[0][n][0][0], nphrases)):
-		# 		k = 0
-		# 		while k < len(atriplets):
-		# 			if (atriplets[k][2] == Ngrams[0][n][0][0] or atriplets[k][4] == Ngrams[0][n][0][0]):
-		# 				atriplets[k][5] = 'X'
-		# 			k+=1
+		n = 0
+		while n < len(Ngrams[0]):
+			if ( presentIn(Ngrams[0][n][0][0], ners) or presentIn(Ngrams[0][n][0][0], nphrases)):
+				k = 0
+				while k < len(atriplets):
+					if (atriplets[k][2] == Ngrams[0][n][0][0] or atriplets[k][4] == Ngrams[0][n][0][0]):
+						atriplets[k][5] = 'X'
+					k+=1
 
-		# 	n+=1
+			n+=1
 
 
-		# if(show):
-		# 	print("\n\n")
-		# 	for x in atriplets:
-		# 			print(x)
+		if(show):
+			print("\n\n")
+			for x in atriplets:
+					print(x)
 		
-		# atriplets = traverseConnected(atriplets)
+		atriplets = traverseConnected(atriplets)
 
-		# if(show):
-		# 	print("\n\n")
-		# 	for x in atriplets:
-		# 			print(x)
+		if(show):
+			print("\n\n")
+			for x in atriplets:
+					print(x)
 
-		# if(show):
-		# 	print(getXY(atriplets))
-		# 	input('enter')
+		if(show):
+			print(getXY(atriplets))
+			input('enter')
 
 		ftriplets+=atriplets
 

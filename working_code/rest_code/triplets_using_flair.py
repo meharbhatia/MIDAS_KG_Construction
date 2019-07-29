@@ -37,12 +37,28 @@ ex = "Oliver began his restaurant empire in 2013–2014 when he opened Fifteen i
 # ex = "John was walking near the vast ocean and bought sea-shells"
 # ex = "In New York, the buildings were tall and beautiful"
 
+def clearBrackets(article): # to clear the text written inside brackets 
+	k=0
+	p1 = p2 = 0
+	while k<len(article):
+		if (article[k]=='('):
+			p1 = k
+		if (article[k]==')'):
+			p2 = k
+		if(p1!=0 and p2!=0):
+			article = article[:p1]+article[p2+1:].strip()
+			p1 = p2 = 0
+		k+=1
+	article = article.replace('(','').replace('(','')
+	return article
+
 
 def getTriplets(iname, aindex, sindex, ex, Ngrams, show, nlp):
 	# ex = "RX also gets a brake-based torque vectoring system the subtly applies the brakes on the inner wheels for better handling and stability through turns. F Sport models get an updated Active Variable Suspension system that's said to be more responsive than before"
 	# ex = "The Akash eagerly wanted Mehar Sharma's blue coloured jacket, green umbrella of John Sowa, and Ritwik Mishra's big black red jeans"
 	# ex = "John had good dancing skills"
 	ex = ex.strip('.').strip('!').replace('‘','\'').replace('’','\'').replace('“','"').replace('”','"')
+	# ex = clearBrackets(ex)
 	sentence = Sentence(ex)
 	triplets = []
 

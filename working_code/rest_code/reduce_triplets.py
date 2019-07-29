@@ -88,10 +88,10 @@ def getXY(triplets):
 
 
 if __name__ == "__main__":
-	file = open('../../datasets/g050_Coref_Dataset.csv', 'r')
+	file = open('../../datasets/CLEANED_icdm_contest_data.csv', 'r')
 	reader = csv.reader(file)
 	nlp = en_core_web_sm.load()
-	show = True
+	show = False
 	next(reader)
 	ftriplets = [['industry', 'index', 's1', 'r', 's2','Y']]
 	tvar = time.time()
@@ -121,7 +121,7 @@ if __name__ == "__main__":
 			print("\n\n")
 			print(nphrases)
 			print("\n\n")
-		tfile = open('../../submissions/new_19.csv','r')
+		tfile = open('../../submissions/new_20_CLEAN.csv','r')
 		treader = csv.reader(tfile)
 		next(treader)
 		atriplets = []
@@ -133,7 +133,7 @@ if __name__ == "__main__":
 				tl.append(trow[2])
 				tl.append(trow[3])
 				tl.append(trow[4])
-				tl.append('O')
+				tl.append('Z')
 				atriplets.append(tl)
 		tfile.close()
 		
@@ -144,33 +144,33 @@ if __name__ == "__main__":
 			# input('Wait... Enter...')
 
 
-		n = 0
-		while n < len(Ngrams[0]):
-			if ( presentIn(Ngrams[0][n][0][0], ners) or presentIn(Ngrams[0][n][0][0], nphrases)):
-				k = 0
-				while k < len(atriplets):
-					if (atriplets[k][2] == Ngrams[0][n][0][0] or atriplets[k][4] == Ngrams[0][n][0][0]):
-						atriplets[k][5] = 'X'
-					k+=1
+		# n = 0
+		# while n < len(Ngrams[0]):
+		# 	if ( presentIn(Ngrams[0][n][0][0], ners) or presentIn(Ngrams[0][n][0][0], nphrases)):
+		# 		k = 0
+		# 		while k < len(atriplets):
+		# 			if (atriplets[k][2] == Ngrams[0][n][0][0] or atriplets[k][4] == Ngrams[0][n][0][0]):
+		# 				atriplets[k][5] = 'X'
+		# 			k+=1
 
-			n+=1
+		# 	n+=1
 
 
-		if(show):
-			print("\n\n")
-			for x in atriplets:
-					print(x)
+		# if(show):
+		# 	print("\n\n")
+		# 	for x in atriplets:
+		# 			print(x)
 		
-		atriplets = traverseConnected(atriplets)
+		# atriplets = traverseConnected(atriplets)
 
-		if(show):
-			print("\n\n")
-			for x in atriplets:
-					print(x)
+		# if(show):
+		# 	print("\n\n")
+		# 	for x in atriplets:
+		# 			print(x)
 
-		if(show):
-			print(getXY(atriplets))
-			input('enter')
+		# if(show):
+		# 	print(getXY(atriplets))
+		# 	input('enter')
 
 		ftriplets+=atriplets
 

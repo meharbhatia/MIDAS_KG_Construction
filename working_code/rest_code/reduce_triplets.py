@@ -121,7 +121,7 @@ if __name__ == "__main__":
 			print("\n\n")
 			print(nphrases)
 			print("\n\n")
-		tfile = open('../../submissions/new_18.csv','r')
+		tfile = open('../../submissions/new_19.csv','r')
 		treader = csv.reader(tfile)
 		next(treader)
 		atriplets = []
@@ -183,7 +183,7 @@ if __name__ == "__main__":
 
 	file.close()
 
-	file = open('../../submissions/new_18_REDUCED.csv','w')
+	file = open('../../submissions/new_19_REDUCED.csv','w')
 	for x in ftriplets:
 		k=0
 		while k<len(x)-1 and x[-1] != 'O':

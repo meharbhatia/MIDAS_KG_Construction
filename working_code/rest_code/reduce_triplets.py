@@ -121,7 +121,7 @@ if __name__ == "__main__":
 			print("\n\n")
 			print(nphrases)
 			print("\n\n")
-		tfile = open('../../submissions/submission_11_52.csv','r')
+		tfile = open('../../submissions/new_18.csv','r')
 		treader = csv.reader(tfile)
 		next(treader)
 		atriplets = []
@@ -141,6 +141,7 @@ if __name__ == "__main__":
 		if(show):
 			for x in atriplets:
 				print(x)
+			# input('Wait... Enter...')
 
 
 		# n = 0
@@ -182,7 +183,7 @@ if __name__ == "__main__":
 
 	file.close()
 
-	file = open('../../submissions/submissionREDUCED_11_52.csv','w')
+	file = open('../../submissions/new_18_REDUCED.csv','w')
 	for x in ftriplets:
 		k=0
 		while k<len(x)-1 and x[-1] != 'O':

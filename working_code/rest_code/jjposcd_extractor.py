@@ -20,8 +20,9 @@ def extractor(tupple):
 	while k < len(tags):
 		if (tags[k] == "POS" and k+1 < len(tags)):
 			p = k-1
+			p2 = p
 			while p >= 0 and "NN" in tags[p]:
-				pos = pos + " " + mylist[p]
+				pos = pos + " " + mylist[p2-p]
 				p-=1
 			# pos = ' '.join(mylist[:k+1])
 			if(p==-1):

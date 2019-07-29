@@ -37,6 +37,11 @@ def getPhrases(ex, tagger):
 			sentence.append([(ph), ('NP')])
 			ph = ""
 			k+=2
+		elif listchunked[k+1] == '<S-PRT>':
+			ph = listchunked[k]
+			sentence.append([(ph), ('PP')])
+			ph = ""
+			k+=2
 		elif listchunked[k+1] == '<B-NP>':
 			# ph = ph + listchunked[k]
 			while (k+1<len(listchunked) and listchunked[k+1] != '<E-NP>'):
@@ -71,6 +76,7 @@ def getPhrases(ex, tagger):
 			sentence.append([ listchunked[k] , 'CC'])
 			k+=1
 		else:
+			sentence.append(['REMOVE THIS','XX'])
 			k+=2
 			# print("here")
 
@@ -119,7 +125,7 @@ def getPhrases(ex, tagger):
 	
 	k = 0
 	while k<len(sentence):
-		if (len(sentence[k][0])==0):
+		if (len(sentence[k][0])==0 or sentence[k][1]=="XX"):
 			sentence = sentence[:k] + (sentence[k+1:] if k+1<len(sentence) else [])
 		k+=1
 		

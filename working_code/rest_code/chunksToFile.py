@@ -25,6 +25,7 @@ with open('../../datasets/g050_Coref_Dataset.csv', 'r') as csvFile:
 	tlen = 300
 	for row in reader:
 		article = row[1]
+		article = clearBrackets(article)
 		sents = sent_tokenize(article)
 		s = 0
 		while s < len(sents):

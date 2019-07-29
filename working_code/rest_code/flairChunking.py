@@ -17,6 +17,7 @@ from nltk import sent_tokenize
 
 
 def getPhrases(ex, tagger):
+	ex = ex.strip().strip('.').strip('!').replace('‘','\'').replace('’','\'').replace('“','"').replace('”','"')
 	sentence = Sentence(ex)
 	tagger.predict(sentence)
 	listchunked = sentence.to_tagged_string().split()
@@ -115,8 +116,14 @@ def getPhrases(ex, tagger):
 			if ("it's " in sentence[k][0]):
 				sentence[k][0] = sentence[k][0].replace("it's ","")
 		k+=1
-
-	if sentence[-1][1] == "CC":
+	
+	k = 0
+	while k<len(sentence):
+		if (len(sentence[k][0])==0):
+			sentence = sentence[:k] + (sentence[k+1:] if k+1<len(sentence) else [])
+		k+=1
+		
+	if len(sentence)>0 and sentence[-1][1] == "CC":
 		sentence = sentence[:-1]
 	# k=0
 	# while k<len(sentence): #this loop was designed to change possesion tags to "of" PP

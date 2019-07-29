@@ -104,12 +104,25 @@ if(show):
 ## to write into a file
 file = open('../../submissions/new_13_withoutJJ_withPosCdExtractor.csv','w')
 for x in output:
-	k=0
-	while k<len(x):
-		file.write(x[k].replace(';','').replace(',','').replace('‘','\'').replace('’','\'').replace('“','\'').replace('”','\'').replace('"','').replace('\n',' '))
-		if(k+1 != len(x)):
-			file.write(',')
-		k+=1
+	# k=0
+	# while k<len(x):
+	# 	file.write(x[k].replace(';','').replace(',','').replace('‘','\'').replace('’','').replace('“','').replace('”','').replace('\"','').replace('\n',' '))
+	# 	if(k+1 != len(x)):
+	# 		file.write(',')
+	# 	k+=1
+	
+	if( len(x[2])<2 or len(x[4])<2 ):
+		continue
+
+	file.write(x[0].replace(';','').replace(',','').replace('‘','\'').replace('’','').replace('“','').replace('”','').replace('\"','').replace('\n',' '))
+	file.write(',')
+	file.write(x[1].replace(';','').replace(',','').replace('‘','\'').replace('’','').replace('“','').replace('”','').replace('\"','').replace('\n',' '))
+	file.write(',')
+	file.write(x[2].replace(';','').replace(',','').replace('‘','\'').replace('’','').replace('“','').replace('”','').replace('\"','').replace('\n',' '))
+	file.write(',')
+	file.write(x[3].replace(';','').replace(',','').replace('‘','\'').replace('’','').replace('“','').replace('”','').replace('\"','').replace('\n',' '))
+	file.write(',')
+	file.write(x[4].replace(';','').replace(',','').replace('‘','\'').replace('’','').replace('“','').replace('”','').replace('\"','').replace('\n',' '))
 
 	file.write("\n")
 file.close()

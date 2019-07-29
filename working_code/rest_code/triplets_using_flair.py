@@ -21,6 +21,7 @@ from nltk import sent_tokenize
 # ex = "John Sowa from India exhibited at the event, held at Shanghai’s National Convention and Exhibition Center, fully demonstrating the BYD New Architecture (BNA) design, the 3rd generation of Dual Mode technology, plus the e-platform framework"
 # ex = "An Indian resident, John Sowa exhibited at the event, held at Shanghai’s National Convention and Exhibition Center, fully demonstrating the BYD New Architecture (BNA) design, the 3rd generation of Dual Mode technology, plus the e-platform framework"
 ex = "Ford says shifter cables can snap off and render the gear selector broken or useless on 2013–2016 Ford Fusion sedans."
+ex = "\"The SUV has really expanded from a consumer standpoint,\" said Jeff Schuster, president of global forecasting at LMC. \"That's where the volume is; that's where the future is"
 # ex = "Norway has a lot of electric cars, so many that it can make anyone driving a new vehicle with an internal combustion engine look like a Luddite"
 # ex = "A total of 23 new car models were exhibited at the event, held at Shanghai’s National Convention and Exhibition Center, fully demonstrating the BYD New Architecture design, the 3rd generation of Dual Mode technology, plus the e-platform framework"
 # ex = "John Sowa from India exhibited amazing dancing skills and performed Salsa at the event"
@@ -213,7 +214,7 @@ def getTriplets(iname, aindex, sindex, ex, Ngrams, show, nlp):
 	k = 0
 	nouns = []
 	prepInStart = False
-	nounAtLast = (True if sentence[-1][1] == "NP" else False)
+	nounAtLast = (True if (len(sentence)>0 and sentence[-1][1] == "NP") else False)
 	########################### Rules for TRIPLETS FORMATION ###########################
 	while k < len(sentence):
 		if (sentence[k][1] == "NP"):
@@ -338,8 +339,11 @@ def getTriplets(iname, aindex, sindex, ex, Ngrams, show, nlp):
 						n1 = x[2]
 						break
 				
-			else:
+			elif (len(nouns)>0):
 				n1 = nouns[-1]
+
+			else:
+				break
 
 			# print("here")
 			k+=1
@@ -354,6 +358,10 @@ def getTriplets(iname, aindex, sindex, ex, Ngrams, show, nlp):
 			nouns.append(n2)
 			triplets.append([n1,r,n2])
 			k+=1
+		elif (sentence[k][1] == "CC" and k+1 < len(sentence) and sentence[k+1][1] == "PP"):
+			k+=1
+			if(k+1<len(sentence) and sentence[k+1][1]=="NP"):
+				k+=1
 		k+=1
 
 	if (prepInStart):
@@ -367,6 +375,12 @@ def getTriplets(iname, aindex, sindex, ex, Ngrams, show, nlp):
 			r = sentence[0][0]
 			n2 = sentence[1][0]
 			triplets.append([n1, r, n2])
+
+	k=0
+	while k <len(triplets):
+		if( len(triplets[k][0])<2 or len(triplets[k][2])<2 or triplets[k][2] == "<UNKNOWN>" or triplets[k][0] == "<UNKNOWN>"):
+			triplets = triplets[:k] + (triplets[k+1:] if k+1<len(triplets) else [])
+		k+=1
 
 
 	### to remove isolated nodes
@@ -399,4 +413,4 @@ if __name__ == "__main__":
 	nlp = en_core_web_sm.load()
 	Ngrams = getNgrams(ex)
 	print(Ngrams)
-	getTriplets('0',0,0,ex, Ngrams ,True, nlp)
+	getTriplets('0',22,2,ex, Ngrams ,True, nlp)

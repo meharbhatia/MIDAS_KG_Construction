@@ -24,6 +24,8 @@ Regarding submissions: (sorted alphabetically)
 
 - ```new_17_REDUCED_removedJJ_withPosCdExtractor.csv``` is build on new_14. 5k triplets. Reductions performed by ```reduced_triplets.py``` file. Score = 12.3
 
+- ```new_18.csv``` made using modified rules. g050 dataset and g050 phrases. Score = 12.66
+
 - ```submission_11_52.csv``` is the best file for the best triplets generated (22nd July) giving score of 11.52. The order of triplets kept in thic case is s2, r, s1. This follows the rule based mining technique ran on the coreference (g050) dataset. 
 
 - ```submissionREDUCED_11_52.csv``` build on submission_11_52. Reductions performed by ```reduced_triplets.py``` file. Score = 12.01.

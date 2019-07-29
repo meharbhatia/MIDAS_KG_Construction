@@ -12,6 +12,21 @@ from nltk import sent_tokenize
 from flairChunking import getPhrases
 
 
+def clearBrackets(article): # to clear the text written inside brackets 
+	k=0
+	p1 = p2 = 0
+	while k<len(article):
+		if (article[k]=='('):
+			p1 = k
+		if (article[k]==')'):
+			p2 = k
+		if(p1!=0 and p2!=0):
+			article = article[:p1]+article[p2+1:].strip()
+			p1 = p2 = 0
+		k+=1
+	article = article.replace('(','').replace('(','')
+	return article
+
 tagger = SequenceTagger.load('chunk')
 output = [['industry', 'index', 'sentence', 'phrase','category']]
 phrases = []

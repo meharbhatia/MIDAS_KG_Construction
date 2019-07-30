@@ -24,6 +24,7 @@ ex = "Ford says shifter cables can snap off and render the gear selector broken 
 ex = "\"The SUV has really expanded from a consumer standpoint,\" said Jeff Schuster, president of global forecasting at LMC. \"That's where the volume is; that's where the future is"
 ex = "Celebrity chef Jamie Oliver's British restaurant chain has become insolvent, putting 1,300 jobs at risk"
 ex = "Oliver began his restaurant empire in 2013–2014 when he opened Fifteen in London"
+ex = "DON'T MISS: Mercedes-Benz EQC Edition 1886 electric SUV kicks off a new era After a couple of rain-soaked days driving the EQC there last week, we can say that it will be a great addition in the U.S. when it arrives sometime in 2020"
 # ex = "A resident on Palomino Court, off Soledad Mountain Road, called 9-1-1 about 9:45 a.m. to report the house next door on fire, with black smoke coming out of the roof, police said"
 # ex = "DON'T MISS: Mercedes-Benz EQC Edition 1886 electric SUV kicks off a new era"
 # ex = "Norway has a lot of electric cars, so many that it can make anyone driving a new vehicle with an internal combustion engine look like a Luddite"
@@ -190,13 +191,16 @@ def getTriplets(iname, aindex, sindex, ex, Ngrams, show, nlp):
 			# 		s = ' '.join(ph[p:])
 			# 		sentence[k] = (s.strip(), sentence[k][1])
 			if (re.search(r'\^.*',ph[p]).group()[1:][0] == 'W'):
-				sentence = sentence[:k] + (sentence[k+1:] if k+1 < len(sentence) else [])
-				k-=1
-				break
+				# sentence = sentence[:k] + (sentence[k+1:] if k+1 < len(sentence) else [])
+				ph = ph[:p] + (ph[p+1:] if p+1 < len(ph) else [])
+				# k-=1
+				# break
 			# if ("NN" in re.search(r'\^.*',ph[p]).group()[1:]):
-
-
 			p+=1
+		if (len(ph)==0):
+			sentence = sentence[:k] + (sentence[k+1:] if k+1 < len(sentence) else [])
+		else:
+			sentence[k][0] = ' '.join(ph)
 		k+=1
 	if(show):
 		print("\n\n\tCHUNKS WITH possession TAG and removing question tags starting with 'W'")
@@ -261,11 +265,12 @@ def getTriplets(iname, aindex, sindex, ex, Ngrams, show, nlp):
 				# print("\t\there")
 				n1 = nouns[-1]
 				k+=1
+				
 				if (sentence[k][1] == "PP"):
 					r = r + " " + sentence[k][0]
 					k+=1
 
-				if(k<len(sentence) and sentence[k][1]=="NP"):
+				if(k<len(sentence) and (sentence[k][1]=="NP" or sentence[k][0] == "era")):
 					n2 = sentence[k][0]
 					nouns.append(n2)
 				elif (nounAtLast==False and prepInStart==True):
@@ -274,6 +279,7 @@ def getTriplets(iname, aindex, sindex, ex, Ngrams, show, nlp):
 					prepInStart = False
 				else:
 					n2 = "<UNKNOWN>"
+
 				triplets.append([n1, r, n2])
 
 				k+=1
@@ -283,25 +289,41 @@ def getTriplets(iname, aindex, sindex, ex, Ngrams, show, nlp):
 		if (sentence[k][1] == "PP"):
 			# print("HERE"*10)
 			if (k+1 < len(sentence) and (sentence[k+1][1] == "NP") and len(nouns) > 0):
-				
-				r = sentence[k][0]
 
-				n1 = nouns[-1]					#this
-				if(sentence[k][0] == "of"):		#and this
-					n1 = sentence[k-1][0]		#i think both are same <nervous_smiley_emoji>
-				
+				if (sentence[k][0] == "of" or sentence[k][0]=="on" or "than" in sentence[k][0]):
+					r = sentence[k][0]
+					n1 = sentence[k-1][0]
+				else:
+					k2 = k
+					# print(k2)
+					while k2>=0:
+						if(sentence[k2][1]=="VP"):
+							break
+						k2-=1
+					if(k2<=0):
+						r = sentence[k][0]
+						n1 = sentence[k-1][0]
+					else:
+						# print(k2)
+						r = sentence[k2][0]+" "+sentence[k][0]
+						n1 = sentence[k2-1][0]
+						for x in list(reversed(triplets)):
+							if (x[1] == sentence[k2][0]):
+								n1 = x[0]
+								break
 				n2 = sentence[k+1][0]
 				# print(nouns, k+1)
 				triplets.append([n1, r, n2])
 				k+=2
 				continue
+
 			elif (k == 0 and len(sentence) > 1 and sentence[k+1][1] == "NP"):
 				prepInStart = True
 				k+=2
 				continue
 
 
-		if (sentence[k][1] == "CC" and k+1 < len(sentence) and sentence[k+1][1] == "NP"):
+		if (sentence[k][1] == "CC" and k+1 < len(sentence) and sentence[k+1][1] == "NP" and sentence[k][0]!="era"):
 			k2 = k+1 
 			verbFound = False
 			ppfound = False
@@ -348,7 +370,7 @@ def getTriplets(iname, aindex, sindex, ex, Ngrams, show, nlp):
 
 					triplets.append([n1, r, n2])
 
-		elif (sentence[k][1] == "CC" and k+2 < len(sentence) and sentence[k+1][1] == "VP" and len(triplets) >= 1):
+		elif (sentence[k][1] == "CC" and k+2 < len(sentence) and sentence[k+1][1] == "VP" and len(triplets) >= 1 and sentence[k][0]!="era"):
 			# n1 = triplets[0][0]
 
 			k2 = k
@@ -359,7 +381,7 @@ def getTriplets(iname, aindex, sindex, ex, Ngrams, show, nlp):
 				n1 = sentence[k2-1][0]
 				for x in list(reversed(triplets)):
 					if (sentence[k2][0] in x[1]):
-						n1 = x[2]
+						n1 = x[0]					#x[0] good for "us; to experience; EQC" --> "x[0]; to normalize; EQC"
 						break
 				
 			elif (len(nouns)>0):
@@ -381,7 +403,7 @@ def getTriplets(iname, aindex, sindex, ex, Ngrams, show, nlp):
 			nouns.append(n2)
 			triplets.append([n1,r,n2])
 			k+=1
-		elif (sentence[k][1] == "CC" and k+1 < len(sentence) and sentence[k+1][1] == "PP"):
+		elif (sentence[k][1] == "CC" and k+1 < len(sentence) and sentence[k+1][1] == "PP" and sentence[k][0]!="era"):
 			k+=1
 			if(k+1<len(sentence) and sentence[k+1][1]=="NP"):
 				k+=1
@@ -403,6 +425,14 @@ def getTriplets(iname, aindex, sindex, ex, Ngrams, show, nlp):
 	while k <len(triplets):
 		if( len(triplets[k][0])<2 or len(triplets[k][2])<2 or triplets[k][2] == "<UNKNOWN>" or triplets[k][0] == "<UNKNOWN>"):
 			triplets = triplets[:k] + (triplets[k+1:] if k+1<len(triplets) else [])
+		elif (triplets[k][1]=="number"):
+			yearflag = False
+			for x in getNERs(ex, nlp):
+				if(triplets[k][0] == x[0] and x[1] == "DATE"):
+					yearflag = True
+					break 
+			if(yearflag):
+				triplets[k][1] = "year"
 		k+=1
 
 

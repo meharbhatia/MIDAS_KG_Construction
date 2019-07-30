@@ -108,7 +108,7 @@ def getPhrases(ex, tagger):
 			sentence[k+1][0] = sentence[k][0]+" "+sentence[k+1][0]
 			sentence = sentence[:k] + sentence[k+1:]
 			k-=1
-		elif (sentence[k][1] == "NP" and sentence[k+1][1] == "NP"):
+		elif (sentence[k][1] == "NP" and (sentence[k+1][1] == "NP" or sentence[k+1][0]=="era")):
 			sentence[k+1][0] = sentence[k][0]+" "+sentence[k+1][0]
 			sentence = sentence[:k] + sentence[k+1:]
 			k-=1

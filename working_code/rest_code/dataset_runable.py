@@ -48,7 +48,7 @@ def clearBrackets(article): # to clear the text written inside brackets
 
 
 output = [['industry', 'index', 's1', 'r', 's2']]
-show = False
+show = True
 nlp = en_core_web_sm.load()
 tvar = time.time()
 tlist = []

@@ -3,7 +3,7 @@ import csv
 
 output = [['index', 'content', 'industry']]
 str1 = ""
-with open('icdm_contest_data.csv', 'r') as csvFile:
+with open('../datasets/icdm_contest_data.csv', 'r') as csvFile:
 	reader = csv.reader(csvFile)
 	next(reader)
 	for row in reader:
@@ -20,13 +20,14 @@ with open('icdm_contest_data.csv', 'r') as csvFile:
 			index = row[1].find(re1.group())
 			row[1] = row[1][:index+2] + " " + row[1][index+2:]
 			re1 = re.search(r'[a-z]\.[A-Z]',row[1])
-
+		str1 = row[1]
+		str1 = str1.replace('\n','. ')
 		tl.append(row[0])
-		tl.append(row[1])
+		tl.append(str1)
 		tl.append(row[2])
 		output.append(tl)
 
-file = open('CLEANED_icdm_contest_data.csv','w')
+file = open('../datasets/CLEANED2_icdm_contest_data.csv','w')
 for x in output:
 	file.write(x[0]+",\""+x[1].replace('"','""')+"\","+x[2])
 	file.write("\n")

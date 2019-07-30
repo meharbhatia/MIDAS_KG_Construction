@@ -30,6 +30,14 @@ Regarding submissions: (sorted alphabetically)
 
 - ```new_20``` score 12.12
 
+- ```new_21``` score 12.01
+
+- ```new_21_REDUCED``` score 12.15
+
+- ```new_22_swapped_reduced``` score 12.1
+
+- ```new_24_g050_reduced``` score 12.18
+
 - ```submission_11_52.csv``` is the best file for the best triplets generated (22nd July) giving score of 11.52. The order of triplets kept in thic case is s2, r, s1. This follows the rule based mining technique ran on the coreference (g050) dataset. 
 
 - ```submissionREDUCED_11_52.csv``` build on submission_11_52. Reductions performed by ```reduced_triplets.py``` file. Score = 12.01.

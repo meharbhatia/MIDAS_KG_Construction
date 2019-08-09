@@ -1,3 +1,6 @@
+# sudo apt-get update
+# sudo apt-get install graphviz
+# sudo pip3 install graphviz
 from graphviz import *
 import pandas as pd
 import re

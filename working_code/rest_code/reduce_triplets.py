@@ -14,7 +14,7 @@ import en_core_web_sm
 def removeNgrams(ngrams):
 	k=0 
 	while k < len(ngrams):
-		if(len(ngrams[k][0][0]) == 1 or ngrams[k][1] < 2 or ngrams[k][0][0] == "'s"):
+		if(len(ngrams[k][0][0]) == 1 or ngrams[k][1] < 3 or ngrams[k][0][0] == "'s"):
 			ngrams = ngrams[:k] + (ngrams[k+1:] if k+1 < len(ngrams) else [])
 			k-=1
 		k+=1
@@ -28,10 +28,22 @@ def getNgrams(ex):
 	filtered_sentence = [w for w in word_tokens if not w in stop_words] 
 	uni = removeNgrams(Counter(ngrams(filtered_sentence,1)).most_common(10))
 	bi = removeNgrams(Counter(ngrams(filtered_sentence,2)).most_common(10))
-	tri = removeNgrams(Counter(ngrams(filtered_sentence,3)).most_common(10))
+	# tri = removeNgrams(Counter(ngrams(filtered_sentence,3)).most_common(10))
+
+	k=0
+	while k<len(uni):
+		l = 0
+		while(l<len(bi)):
+			if(uni[k][0][0] in bi[l][0]):
+				uni = uni[:k]+(uni[k+1:] if k+1<len(uni) else [])
+				k-=1
+				break
+			l+=1
+		k+=1
+
 	nngrams.append(uni)
 	nngrams.append(bi)
-	nngrams.append(tri)
+	# nngrams.append(tri)
 	return nngrams
 
 def nounfilter(nphrases):
@@ -100,7 +112,7 @@ if __name__ == "__main__":
 	count = 0
 	for row in reader:
 		article = row[1]
-		Ngrams = getNgrams(article)
+		Ngrams = getNgrams("john randy "+article+" john randy, john randy")
 		ners = getNERs(article, nlp)
 		sent = sent_tokenize(article)
 		s = 0
@@ -112,16 +124,16 @@ if __name__ == "__main__":
 		if(show):
 			print("\n\n")
 			print(Ngrams)
-			print(Ngrams[0])
-			print(Ngrams[0][0])
-			print(Ngrams[0][0][0])
-			print(Ngrams[0][0][0][0])
+			# print(Ngrams[0])
+			# print(Ngrams[0][0])
+			# print(Ngrams[0][0][0])
+			# print(Ngrams[0][0][0][0])
 			print("\n\n")
 			print(ners)
 			print("\n\n")
 			print(nphrases)
 			print("\n\n")
-		tfile = open('../../submissions/new_24_g050_coref_modifiedPP.csv','r')
+		tfile = open('../../submissions/new_21_modifiedPP.csv','r')
 		treader = csv.reader(tfile)
 		next(treader)
 		atriplets = []
@@ -133,7 +145,7 @@ if __name__ == "__main__":
 				tl.append(trow[2])
 				tl.append(trow[3])
 				tl.append(trow[4])
-				tl.append('Z')
+				tl.append('O')
 				atriplets.append(tl)
 		tfile.close()
 		
@@ -144,33 +156,54 @@ if __name__ == "__main__":
 			# input('Wait... Enter...')
 
 
-		# n = 0
-		# while n < len(Ngrams[0]):
-		# 	if ( presentIn(Ngrams[0][n][0][0], ners) or presentIn(Ngrams[0][n][0][0], nphrases)):
-		# 		k = 0
-		# 		while k < len(atriplets):
-		# 			if (atriplets[k][2] == Ngrams[0][n][0][0] or atriplets[k][4] == Ngrams[0][n][0][0]):
-		# 				atriplets[k][5] = 'X'
-		# 			k+=1
+		n = 0
+		while n < len(Ngrams[0]):
+			# if ( presentIn(Ngrams[0][n][0][0], ners) or presentIn(Ngrams[0][n][0][0], nphrases)):
+			k = 0
+			while k < len(atriplets):
+				if (atriplets[k][2] == Ngrams[0][n][0][0] or atriplets[k][4] == Ngrams[0][n][0][0]):
+					atriplets[k][5] = 'X'
+				k+=1
+			n+=1
 
-		# 	n+=1
+		n = 0
+		while n < len(Ngrams[1]):
+			# if ( presentIn(Ngrams[0][n][0][0], ners) or presentIn(Ngrams[0][n][0][0], nphrases)):
+			k = 0
+			while k < len(atriplets):
+				if ( ' '.join(Ngrams[1][n][0][0]) in atriplets[k][2] or ' '.join(Ngrams[1][n][0][0]) in atriplets[k][4]):
+					atriplets[k][5] = 'X'
+				k+=1
+			n+=1
+
+		n = 0
+		while n < len(ners):
+			# if ( presentIn(Ngrams[0][n][0][0], ners) or presentIn(Ngrams[0][n][0][0], nphrases)):
+			k = 0
+			while k < len(atriplets):
+				if ( ners[n][0].replace(' ','').strip('.') in atriplets[k][2].replace(' ','') or ners[n][0].replace(' ','') in atriplets[k][4].replace(' ','')):
+					if(ners[n][1]!='NORP'):
+						atriplets[k][5] = 'X'
+				k+=1
+			n+=1
 
 
-		# if(show):
-		# 	print("\n\n")
-		# 	for x in atriplets:
-		# 			print(x)
+
+		if(show):
+			print("\n\n")
+			for x in atriplets:
+					print(x)
 		
-		# atriplets = traverseConnected(atriplets)
+		atriplets = traverseConnected(atriplets)
 
-		# if(show):
-		# 	print("\n\n")
-		# 	for x in atriplets:
-		# 			print(x)
+		if(show):
+			print("\n\n")
+			for x in atriplets:
+					print(x)
 
-		# if(show):
-		# 	print(getXY(atriplets))
-		# 	input('enter')
+		if(show):
+			print(getXY(atriplets), ' / ', len(atriplets))
+			input('enter')
 
 		ftriplets+=atriplets
 
@@ -183,7 +216,10 @@ if __name__ == "__main__":
 
 	file.close()
 
-	file = open('../../submissions/new_24_REDUCED.csv','w')
+	if(show):
+		exit()
+
+	file = open('../../submissions/new_21_new_REDUCED.csv','w')
 	for x in ftriplets:
 		k=0
 		while k<len(x)-1 and x[-1] != 'O':

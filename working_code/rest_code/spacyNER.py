@@ -11,6 +11,7 @@ import en_core_web_sm
     # art = Artifact
     # eve = Event
     # nat = Natural Phenomenon
+    # norp = Nationalities or religious or political groups
 
 
 def getNERs(ex, nlp):

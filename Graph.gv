@@ -1,0 +1,7 @@
+graph {
+	1 [label=1]
+	2 [label=2]
+	1 -- 2 [label=link]
+	label="My caption"
+	fontsize=25
+}

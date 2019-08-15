@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image</title>
+</head>
+<body>
+	<form action = "http://localhost:5000" method = "get">
+    	<img src="{{ url_for('static', filename=imgLink) }}" alt="{{imgLink}} not found"> <br>
+    	<p><input type = "submit" value = "Return" /></p>
+    </form>
+    <!-- <img src="static/images/{{imgLink}}" alt="{{imgLink}} not found">
+    <img src="/home/ritwik/flask/templates/images/45711.png" alt="{{ imgLink }} not found"> -->
+</body>
+</html>

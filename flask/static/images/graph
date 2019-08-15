@@ -1,0 +1,10 @@
+graph {
+	John [label=John]
+	Mary [label=Mary]
+	John -- Mary [label=loved]
+	label="
+
+== ARTICLE ==
+John loved Mary"
+	fontsize=25
+}

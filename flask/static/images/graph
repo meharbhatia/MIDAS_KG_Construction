@@ -1,10 +1,12 @@
 graph {
-	John [label=John]
-	Mary [label=Mary]
-	John -- Mary [label=loved]
+	"higher education" [label="higher education"]
+	America [label=America]
+	Rohan [label=Rohan]
+	Rohan -- America [label="went to"]
+	Rohan -- "higher education" [label="went for"]
 	label="
 
 == ARTICLE ==
-John loved Mary"
+Rohan went to America for higher education"
 	fontsize=25
 }
